@@ -1,0 +1,24 @@
+# Runs the app behind Caddy, which gets and renews the HTTPS certificate for your domain.
+services:
+  app:
+    build: .
+    env_file: .env
+    volumes:
+      - appdata:/data
+    restart: unless-stopped
+  caddy:
+    image: caddy:2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddydata:/data
+      - caddyconfig:/config
+    depends_on:
+      - app
+    restart: unless-stopped
+volumes:
+  appdata:
+  caddydata:
+  caddyconfig:

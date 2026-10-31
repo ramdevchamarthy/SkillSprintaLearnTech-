@@ -1,0 +1,2 @@
+Chapter 4 Hashing
+Hash tables, chaining and open addressing, load factor and rehashing in practice.

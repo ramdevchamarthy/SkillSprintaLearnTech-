@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SprintMap™ | SkillSprinta LearnTech</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#f6f7fb;--surface:#fff;--ink:#0d1330;--mute:#525a7a;--line:#dde1ee;--blue:#2f5bff;--violet:#7a3cff;--grad:linear-gradient(120deg,#2f5bff,#7a3cff);--done:#12a26b;--prog:#2f5bff;--weak:#e5484d;--prac:#e8890c;--rev:#7a3cff;--none:#9aa1bd;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070b22;--surface:#0f1636;--ink:#eef1ff;--mute:#a3acd0;--line:#232c57;--none:#6b739a}}
+:root[data-theme="dark"]{--bg:#070b22;--surface:#0f1636;--ink:#eef1ff;--mute:#a3acd0;--line:#232c57;--none:#6b739a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16.5px/1.55 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:'Bricolage Grotesque',Figtree,sans-serif;line-height:1.15;margin:0 0 .4em}
+h1{font-size:clamp(1.8rem,5vw,2.6rem);font-weight:800}h2{font-size:1.4rem}h3{font-size:1.05rem}
+.wrap{max-width:960px;margin:0 auto;padding:20px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.top a{font-weight:600;color:var(--mute);text-decoration:none}
+.top .sp{margin-left:auto}
+.mute{color:var(--mute)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
+textarea,input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px}
+textarea::placeholder,input::placeholder{color:var(--mute);opacity:.8}
+textarea{min-height:190px;resize:vertical}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border-radius:12px;border:1.5px solid transparent;font:600 1rem Figtree,sans-serif;cursor:pointer;color:#fff;background:var(--grad)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.sm{min-height:40px;padding:0 14px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+.icon{width:42px;height:42px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font-size:1.1rem}
+:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+.note{font-size:.9rem;color:var(--mute);border-left:3px solid var(--violet);padding-left:10px;margin:10px 0}
+.mod{display:grid;gap:8px;margin-bottom:14px}
+.trow{display:grid;grid-template-columns:1fr 44px;gap:8px}
+.trow button{min-height:44px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--weak);cursor:pointer;font-size:1.1rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.stat b{display:block;font:800 1.6rem 'Bricolage Grotesque',sans-serif}
+.stat span{font-size:.85rem;color:var(--mute)}
+.next{background:linear-gradient(135deg,#1b3bd6,#7a3cff);color:#fff;border-radius:16px;padding:18px;margin-bottom:16px}
+.next p{margin:.3em 0 0;color:#e4e8ff}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:99px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:500 .95rem Figtree,sans-serif;cursor:pointer}
+.chip i{width:12px;height:12px;border-radius:50%;flex:none}
+.chip.sel{border-color:var(--violet);box-shadow:0 0 0 3px color-mix(in srgb,var(--violet) 25%,transparent)}
+.arrow{color:var(--mute)}
+.panel{position:sticky;bottom:0;background:var(--surface);border:1.5px solid var(--violet);border-radius:16px;padding:16px;margin-top:8px;box-shadow:0 -6px 24px rgba(10,16,48,.18)}
+.sts{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.sts button{min-height:40px;padding:0 12px;border-radius:99px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;font:500 .9rem Figtree,sans-serif}
+.sts button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{font-size:.85rem;color:var(--mute);display:block;margin-bottom:4px}
+.hide{display:none!important}
+.empty{text-align:center;padding:10px}
+.tk{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}.tk span{flex:1 1 160px}.tk.dn span{text-decoration:line-through;color:var(--mute)}.dh{display:flex;justify-content:space-between;gap:8px;margin-top:16px;font-weight:600}.dh.td{color:var(--violet)}.warn{color:var(--weak)}.sts button.on{background:var(--ink);color:var(--bg)}.opt{display:block;width:100%;text-align:left;min-height:48px;padding:10px 14px;margin:8px 0;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;cursor:pointer}.opt.sel{border-color:var(--violet)}.opt.ok{border-color:var(--done);background:color-mix(in srgb,var(--done) 16%,var(--bg))}.opt.bad{border-color:var(--weak);background:color-mix(in srgb,var(--weak) 16%,var(--bg))}.wk{padding:10px 0;border-bottom:1px solid var(--line)}
+.cbox{position:fixed;left:16px;right:16px;bottom:16px;max-width:520px;margin:0 auto;background:var(--surface);border:1.5px solid var(--violet);border-radius:16px;padding:16px;z-index:50;box-shadow:0 10px 30px rgba(10,16,48,.35)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><a href="#" id="back" class="hide">← Edit syllabus</a><span class="sp"></span><button class="icon" id="theme" aria-label="Toggle theme">◐</button></div>
+  <h1>SprintMap™</h1>
+  <p class="mute">Paste your syllabus. Review the topics. Get a roadmap with a clear next step.</p>
+
+  <!-- Step 1 -->
+  <div id="s1">
+    <div class="card empty-card">
+      <label for="subj">Subject</label>
+      <input id="subj" placeholder="e.g. Data Structures" autocomplete="off">
+      <label for="raw" style="margin-top:12px">Syllabus text</label>
+      <textarea id="raw" placeholder="Module 1: Introduction to Data Structures&#10;Arrays, Stacks, Queues&#10;Module 2: Linked Lists&#10;Singly linked list, Doubly linked list"></textarea>
+      <p class="note">Start each module with “Module”, “Unit” or “Chapter”. Topics go on the lines below, one per line or separated by commas. This version reads the structure by rules, not by AI, and PDF upload comes with the backend. You can fix anything in the next step.</p>
+      <div class="row"><button class="btn" id="analyze">Analyze syllabus</button><button class="btn ghost" id="sample">Load an example</button></div>
+      <p id="err" class="note hide" style="border-color:var(--weak)"></p>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div id="s2" class="hide">
+    <div class="card">
+      <h2>Review extracted topics</h2>
+      <p class="note" id="rep"></p>
+      <div id="review"></div>
+      <div class="row"><button class="btn" id="confirm">Confirm and build SprintMap™</button><button class="btn ghost" id="cancel">Back</button></div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div id="s3" class="hide">
+    <div class="stats" id="stats"></div>
+    <div class="next" id="next"></div>
+    <div class="card"><h2 id="mt"></h2>
+      <p class="note">Each topic is assumed to build on the one before it in its module, based on syllabus order. Tap a topic to set its status and your own understanding rating.</p>
+      <div id="map"></div>
+    </div>
+    <div class="card"><h2>Study planner</h2><p class="note">Schedules your pending topics before your exam: learning first, then practice, then revision. Weak and needs-practice topics get more time and come first. Finishing a block never marks a topic completed; you set that on the map.</p><div id="planbox"></div></div>
+    <div class="card"><h2>Weak areas</h2><div id="weakbox"></div></div>
+    <div class="card"><h2>Quizzes</h2><div id="quizbox"></div></div>
+    <div class="panel hide" id="panel"></div>
+    <div class="row"><button class="btn ghost sm" id="reset">Start over with a new syllabus</button></div>
+  </div>
+</div>
+
+<div id="cbox" class="cbox hide" role="alertdialog" aria-labelledby="cmsg"><p id="cmsg" style="margin:0 0 12px"></p><div class="row"><button class="btn" id="cyes">Yes, continue</button><button class="btn ghost" id="cno">Cancel</button></div></div>
+
+<script>
+(function(){
+var root=document.documentElement,$=function(i){return document.getElementById(i)};
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}}
+function dark(){var t=root.getAttribute('data-theme');return t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches}
+var th=ls('ss-theme');if(th)root.setAttribute('data-theme',th);
+$('theme').onclick=function(){var n=dark()?'light':'dark';root.setAttribute('data-theme',n);ls('ss-theme',n)};
+
+var ST=[['none','Not started','var(--none)'],['prog','In progress','var(--prog)'],['done','Completed','var(--done)'],['prac','Needs practice','var(--prac)'],['weak','Weak area','var(--weak)'],['rev','Ready for revision','var(--rev)']];
+function sInfo(k){return ST.filter(function(s){return s[0]===k})[0]}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var data=null,draft=null,sel=null,uid=0;
+
+var EX='Module 1: Introduction to Data Structures\nArrays, Stacks, Queues, Recursion\nModule 2: Linked Lists\nSingly linked list, Doubly linked list, Circular linked list\nModule 3: Trees\nBinary tree, Binary search tree, Tree traversal, AVL trees\nModule 4: Graphs\nGraph representation, BFS, DFS';
+function parse(raw){
+  var mods=[],cur=null,dups=[],seen={};
+  raw.split(/\r?\n/).forEach(function(line){
+    line=line.trim();if(!line)return;
+    var m=line.match(/^(module|unit|chapter)s?\b\s*(?:[\dIVXivx]+(?:\.\d+)*(?=\s|[:.\-–—)]|$))?\s*[:.\-–—)]?\s*(.*)$/i);
+    if(m){cur={name:(m[2]||line).trim(),topics:[]};mods.push(cur);return}
+    if(!cur){cur={name:'General',topics:[]};mods.push(cur)}
+    line.split(/[,;]/).forEach(function(t){
+      t=t.replace(/^\s*(?:[\-•*]+\s*|\d+[.)](?=\s)\s*)/,'').trim();if(!t)return;var k=t.toLowerCase();
+      if(seen[k]){dups.push(t);return}seen[k]=1;cur.topics.push({id:'t'+(uid++),name:t,status:'none',diff:'Medium',score:0});
+    });
+  });
+  return{modules:mods.filter(function(m){return m.topics.length}),dups:dups};
+}
+$('sample').onclick=function(){$('subj').value='Data Structures';$('raw').value=EX};
+$('analyze').onclick=function(){
+  var r=parse($('raw').value),e=$('err');
+  if(!r.modules.length){e.textContent='No topics found. Add at least one module heading and some topic lines.';e.classList.remove('hide');return}
+  e.classList.add('hide');draft={subject:$('subj').value.trim()||'My subject',modules:r.modules};
+  var n=r.modules.reduce(function(a,m){return a+m.topics.length},0);
+  draft.note=(r.dups.length?' Removed duplicates: '+r.dups.join(', ')+'.':' No duplicate topics found.')+' Only topics from your text are included.';
+  renderReview();show(2);
+};
+function renderReview(){
+  var h='<label for="rs">Subject</label><input id="rs" value="'+esc(draft.subject)+'" style="margin-bottom:14px">';
+  draft.modules.forEach(function(m,mi){
+    h+='<div class="mod"><label>Module '+(mi+1)+'</label><input data-m="'+mi+'" value="'+esc(m.name)+'" aria-label="Module name">';
+    m.topics.forEach(function(t,ti){h+='<div class="trow"><input data-m="'+mi+'" data-t="'+ti+'" value="'+esc(t.name)+'" aria-label="Topic name"><button data-del="'+mi+','+ti+'" aria-label="Remove topic">✕</button></div>'});
+    h+='<button class="btn ghost sm" data-add="'+mi+'" style="justify-self:start">+ Add topic</button></div>';
+  });
+  $('review').innerHTML=h;
+  var nt=draft.modules.reduce(function(a,m){return a+m.topics.length},0);
+  $('rep').textContent='Found '+draft.modules.length+' modules and '+nt+' topics.'+draft.note;
+}
+$('review').addEventListener('input',function(e){var d=e.target.dataset;if(e.target.id==='rs'){draft.subject=e.target.value;return}
+  if(d.t!==undefined)draft.modules[d.m].topics[d.t].name=e.target.value;else if(d.m!==undefined)draft.modules[d.m].name=e.target.value});
+$('review').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+  if(b.dataset.del){var p=b.dataset.del.split(',');draft.modules[p[0]].topics.splice(p[1],1);renderReview()}
+  if(b.dataset.add!==undefined){draft.modules[b.dataset.add].topics.push({id:'t'+(uid++),name:'New topic',status:'none',diff:'Medium',score:0});renderReview()}});
+$('cancel').onclick=function(){show(data?3:1)};
+$('confirm').onclick=function(){
+  draft.modules.forEach(function(m){m.topics=m.topics.filter(function(t){return t.name.trim()})});
+  draft.modules=draft.modules.filter(function(m){return m.topics.length});
+  if(!draft.modules.length){$('rep').textContent='Add at least one topic before building the SprintMap.';return}
+  var hadProgress=data&&(data.plan||data.quiz||data.modules.some(function(m){return m.topics.some(function(t){return t.status!=='none'||t.score||t.quiz!=null})}));
+  var apply=function(){data=draft;data.made=today();sel=null;save();render();show(3)};
+  if(hadProgress)ask('Replace your current SprintMap? Its topic statuses, study plan and quiz questions will be deleted.',apply);else apply();
+};
+function save(){ls('ss-map',JSON.stringify(data))}
+var askCb=null;
+function ask(msg,cb){$('cmsg').textContent=msg;askCb=cb;$('cbox').classList.remove('hide');$('cyes').focus()}
+$('cyes').onclick=function(){var cb=askCb;askCb=null;$('cbox').classList.add('hide');if(cb)cb()};
+$('cno').onclick=function(){askCb=null;$('cbox').classList.add('hide')};
+function show(n){['s1','s2','s3'].forEach(function(id,i){$(id).classList.toggle('hide',i+1!==n)});$('back').classList.toggle('hide',n!==3)}
+$('back').onclick=function(e){e.preventDefault();$('subj').value=data.subject;show(1)};
+$('reset').onclick=function(){ask('Delete this SprintMap and start over? Topic statuses, the plan and quiz questions will be lost.',function(){data=null;ls('ss-map',null);$('raw').value='';$('subj').value='';show(1)})};
+
+function all(){var a=[];data.modules.forEach(function(m,mi){m.topics.forEach(function(t,ti){a.push({t:t,m:m,mi:mi,ti:ti,prev:ti?m.topics[ti-1]:null})})});return a}
+function band(s){return s>=80?'Strong understanding':s>=60?'Good understanding':s>=40?'Needs more practice':'Requires concept recovery'}
+function recommend(){
+  var W={weak:5,prac:4,prog:3,none:2,rev:1,done:0},L=all().filter(function(x){return x.t.status!=='done'});
+  if(!L.length)return null;
+  var best=L.reduce(function(a,b){return W[b.t.status]>W[a.t.status]?b:a});
+  var why=[];
+  if(best.prev&&best.prev.status!=='done'&&best.prev.status!=='rev'&&best.t.status!=='rev'){
+    var pr=all().filter(function(x){return x.t===best.prev})[0];
+    return{x:pr,why:'“'+best.t.name+'” builds on this topic in the syllabus order, and this one is not completed yet. Strengthening it first should make the next topic easier.'};
+  }
+  var s=best.t.status;
+  why.push(s==='weak'?'You marked it as a weak area, so it comes first.':s==='prac'?'You marked it as needing practice.':s==='prog'?'You already started it, so finishing it keeps momentum.':s==='rev'?'Everything else is complete, so a revision pass is next.':'It is the earliest topic whose prerequisite is in good shape.');
+  if(best.prev)why.push('Its prerequisite, “'+best.prev.name+'”, is '+sInfo(best.prev.status)[1].toLowerCase()+'.');
+  return{x:best,why:why.join(' ')};
+}
+function render(){
+  var A=all(),c={};ST.forEach(function(s){c[s[0]]=0});A.forEach(function(x){c[x.t.status]++});
+  var rated=A.filter(function(x){return eff(x.t)>0}),avg=rated.length?Math.round(rated.reduce(function(a,x){return a+eff(x.t)},0)/rated.length):null;
+  $('mt').textContent=data.subject;
+  $('stats').innerHTML='<div class="stat"><b>'+A.length+'</b><span>Topics</span></div><div class="stat"><b>'+c.done+'</b><span>Completed</span></div><div class="stat"><b>'+(A.length-c.done)+'</b><span>Pending</span></div><div class="stat"><b>'+(c.weak+c.prac)+'</b><span>Weak or needs practice</span></div><div class="stat"><b>'+(avg===null?'–':avg+'%')+'</b><span>'+(avg===null?'No ratings yet':'Estimated understanding')+'</span></div>';
+  var r=recommend();
+  $('next').innerHTML=r?'<h3>Next: '+esc(r.x.t.name)+'</h3><p>'+esc(r.x.m.name)+'</p><p><b>Why:</b> '+esc(r.why)+'</p>':'<h3>All topics completed</h3><p>Nothing pending. Quiz-based revision will appear here once quizzes are built.</p>';
+  var h='';
+  data.modules.forEach(function(m){
+    h+='<h3 style="margin-top:14px">'+esc(m.name)+'</h3><div class="chips">';
+    m.topics.forEach(function(t,i){var s=sInfo(t.status);
+      h+=(i?'<span class="arrow" aria-hidden="true">›</span>':'')+'<button class="chip'+(sel===t.id?' sel':'')+'" data-id="'+t.id+'"><i style="background:'+s[2]+'"></i>'+esc(t.name)+'</button>'});
+    h+='</div>';
+  });
+  h+='<div class="chips" style="margin-top:16px">'+ST.map(function(s){return'<span class="mute" style="font-size:.85rem"><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:'+s[2]+';margin-right:5px"></i>'+s[1]+'</span>'}).join('')+'</div>';
+  $('map').innerHTML=h;panel();plan();weak();quiz();
+}
+function panel(){
+  var p=$('panel'),x=all().filter(function(a){return a.t.id===sel})[0];
+  if(!x){p.classList.add('hide');return}
+  var t=x.t;p.classList.remove('hide');
+  p.innerHTML='<h3>'+esc(t.name)+'</h3><span class="mute">'+esc(x.m.name)+(x.prev?' · Builds on: '+esc(x.prev.name):' · First topic in module')+'</span><div class="sts" role="group" aria-label="Status">'+ST.map(function(s){return'<button data-st="'+s[0]+'" aria-pressed="'+(t.status===s[0])+'">'+s[1]+'</button>'}).join('')+'</div><div class="grid2"><div><label for="df">Difficulty</label><select id="df">'+['Easy','Medium','Hard'].map(function(d){return'<option'+(d===t.diff?' selected':'')+'>'+d+'</option>'}).join('')+'</select></div><div><label for="sc">Your understanding (0–100)</label><input id="sc" type="number" min="0" max="100" inputmode="numeric" value="'+(t.score||'')+'" placeholder="Not rated"></div></div><p class="note" style="margin-bottom:0">'+(t.score?band(t.score)+'. This is your own estimate; quiz results will refine it later.':'Rate yourself honestly. This is a self-assessment, not a test result.')+'</p><div class="row"><button class="btn sm ghost" id="pc">Close</button></div>';
+}
+$('map').addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;sel=b.dataset.id;render();$('panel').scrollIntoView({block:'nearest',behavior:'smooth'})});
+function cur(){return all().filter(function(a){return a.t.id===sel})[0].t}
+$('panel').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+  if(b.id==='pc'){sel=null;render();return}
+  if(b.dataset.st){cur().status=b.dataset.st;save();render()}});
+$('panel').addEventListener('change',function(e){
+  if(e.target.id==='df'){cur().diff=e.target.value;save()}
+  if(e.target.id==='sc'){var v=Math.max(0,Math.min(100,parseInt(e.target.value,10)||0));cur().score=v;save();render()}});
+
+function pad(n){return(n<10?'0':'')+n}
+function ymd(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function today(){return ymd(new Date())}
+function addD(s,n){var d=new Date(s+'T00:00:00');d.setDate(d.getDate()+n);return ymd(d)}
+function diffD(a,b){return Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/864e5)}
+function r5(m){return Math.max(5,Math.round(m/5)*5)}
+function sig(){return all().map(function(x){return x.t.status+eff(x.t)}).join()}
+var pid=0,TL={learn:'Learn',practice:'Practice',revise:'Revise',personal:'Personal'};
+function gen(){
+  var P=data.plan,td=today(),msg=$('perr'),hrs=parseFloat($('phrs').value),exam=$('pexam').value,n=diffD(td,exam);
+  if(!exam||!(n>=1)){msg.textContent='Choose an exam date that is at least tomorrow.';msg.classList.remove('hide');return}
+  if(!(hrs>0&&hrs<=12)){msg.textContent='Enter daily study hours between 0.5 and 12.';msg.classList.remove('hide');return}
+  P.hrs=hrs;P.exam=exam;
+  n=Math.min(n,180);
+  var keep=P.tasks.filter(function(t){return t.done||t.type==='personal'}),caps=[],total=0;
+  for(var i=0;i<n;i++){var d=addD(td,i),u=keep.filter(function(t){return t.date===d}).reduce(function(a,t){return a+t.min},0);var c=Math.max(0,P.hrs*60-u);caps.push(c);total+=c}
+  var pend=all().filter(function(x){return x.t.status!=='done'});
+  P.note='';
+  if(!pend.length){P.tasks=keep;P.note='No pending topics, so there is nothing new to schedule.';P.sig=sig();save();plan();return}
+  var DW={Easy:.75,Medium:1,Hard:1.5},NW={weak:1.5,prac:1.3,none:1,prog:.8,rev:.4};
+  pend.forEach(function(x){x.w=DW[x.t.diff]*NW[x.t.status]*(eff(x.t)?1.5-eff(x.t)/100:1)});
+  pend.sort(function(a,b){var pa=(a.t.status==='weak'||a.t.status==='prac')?0:1,pb=(b.t.status==='weak'||b.t.status==='prac')?0:1;return pa-pb||a.mi-b.mi||a.ti-b.ti});
+  var everyone=all(),L=[],Pr=[],R=[],sum=0;
+  pend.forEach(function(x){L.push({x:x,type:'learn',m:60*x.w});Pr.push({x:x,type:'practice',m:40*x.w})});
+  everyone.forEach(function(x){if(x.t.status!=='none')R.push({x:x,type:'revise',m:20})});
+  var list=L.concat(Pr,R);list.forEach(function(it){sum+=it.m});
+  var sc=Math.min(1,total/(sum||1));list.forEach(function(it){it.m=r5(it.m*sc)});
+  var out=[],d=0,dropped=false;while(d<n&&caps[d]<=0)d++;var r=d<n?caps[d]:0;
+  list.forEach(function(it){var m=it.m;while(m>0){if(d>=n){dropped=true;return}var c=Math.min(m,r);out.push({id:'k'+Date.now().toString(36)+(pid++),tid:it.x.t.id,type:it.type,date:addD(td,d),min:c,done:false});m-=c;r-=c;if(r<=0){d++;while(d<n&&caps[d]<=0)d++;r=d<n?caps[d]:0}}});
+  if(!dropped&&total>=pend.length*30&&out.length)P.note='Your pending topics fit by '+new Date(out[out.length-1].date+'T00:00:00').toLocaleDateString(undefined,{day:'numeric',month:'short'})+'. The rest of the time before your exam is free: add topics, or retake quizzes to refine the plan.';
+  if(dropped||total<pend.length*30)P.note='Time is tight: '+Math.round(total/60*10)/10+' hours are available for '+pend.length+' pending topics'+(dropped?', and some revision does not fit':'')+'. Consider more daily hours or an assessment of which topics matter most.';
+  P.tasks=keep.concat(out);P.sig=sig();P.made=td;save();plan();
+}
+function plan(){
+  var P=data.plan=data.plan||{exam:'',hrs:2,tasks:[],view:'week'},td=today(),has=P.tasks.length>0;
+  var miss=P.tasks.filter(function(t){return !t.done&&t.date<td&&t.type!=='personal'}).length;
+  var h='<div class="grid2"><div><label for="pexam">Exam date</label><input id="pexam" type="date" min="'+addD(td,1)+'" value="'+P.exam+'"></div><div><label for="phrs">Study hours per day</label><input id="phrs" type="number" min="0.5" max="12" step="0.5" value="'+P.hrs+'"></div></div><div class="row"><button class="btn" id="pgen">'+(has?'Replan from today':'Generate plan')+'</button></div><p id="perr" class="note warn hide"></p>';
+  if(P.note)h+='<p class="note">'+esc(P.note)+'</p>';
+  if(has&&P.sig!==sig())h+='<p class="note">Your topic statuses or ratings changed since this plan was made. Replan to reprioritise.</p>';
+  if(miss)h+='<p class="note warn">'+miss+' study block(s) were missed. Replan to rebuild the schedule from today.</p>';
+  if(!has)h+='<p class="mute">Set your exam date and daily hours to see a schedule built from your pending topics.</p>';
+  else{
+    var all7=P.view==='all';
+    h+='<div class="sts" role="group" aria-label="View"><button data-v="week" class="'+(all7?'':'on')+'">Next 7 days</button><button data-v="all" class="'+(all7?'on':'')+'">Full timeline</button></div>';
+    var lim=addD(td,6),T=P.tasks.filter(function(t){return (all7||t.date<=lim)&&!(t.done&&t.date<td)}).sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0}),cur=null,sums={};
+    P.tasks.forEach(function(t){sums[t.date]=(sums[t.date]||0)+t.min});
+    if(!T.length)h+='<p class="mute">Nothing scheduled in this view.</p>';
+    T.forEach(function(t){
+      if(t.date!==cur){cur=t.date;var lbl=t.date===td?'Today':new Date(t.date+'T00:00:00').toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'});
+        h+='<div class="dh'+(t.date===td?' td':'')+(t.date<td?' warn':'')+'"><span>'+(t.date<td?'Missed · ':'')+lbl+'</span><span class="'+(sums[t.date]>P.hrs*60?'warn':'mute')+'">'+sums[t.date]+' min'+(sums[t.date]>P.hrs*60?' (over your limit)':'')+'</span></div>'}
+      var nm=t.type==='personal'?esc(t.text):esc(TL[t.type]+': '+tname(t.tid));
+      h+='<div class="tk'+(t.done?' dn':'')+'"><span>'+nm+' · '+t.min+' min</span><button class="btn sm ghost" data-done="'+t.id+'">'+(t.done?'Undo':'Mark done')+'</button>'+(t.done?'':'<button class="btn sm ghost" data-pp="'+t.id+'">Postpone</button>')+(t.type==='personal'?'<button class="btn sm ghost" data-rm="'+t.id+'">Remove</button>':'')+'</div>';
+    });
+  }
+  h+='<h3 style="margin-top:20px">Add a personal task</h3><div class="grid2"><div><label for="ptxt">Task</label><input id="ptxt" placeholder="e.g. Lab record"></div><div><label for="pmin">Minutes</label><input id="pmin" type="number" min="5" max="600" value="30"></div></div><div class="row"><div style="flex:1 1 150px"><label for="pdate">Date</label><input id="pdate" type="date" value="'+td+'"></div><button class="btn sm" id="padd" style="align-self:flex-end">Add task</button></div>';
+  $('planbox').innerHTML=h;
+}
+function tname(id){var x=all().filter(function(a){return a.t.id===id})[0];return x?x.t.name:'(removed topic)'}
+$('planbox').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b)return;var P=data.plan,d=b.dataset;
+  if(b.id==='pgen'){gen();return}
+  if(d.v){P.view=d.v}
+  if(d.done){P.tasks.forEach(function(t){if(t.id===d.done)t.done=!t.done})}
+  if(d.pp){P.tasks.forEach(function(t){if(t.id===d.pp){var td=today();t.date=addD(t.date<td?td:t.date,1)}})}
+  if(d.rm){P.tasks=P.tasks.filter(function(t){return t.id!==d.rm})}
+  if(b.id==='padd'){var tx=$('ptxt').value.trim(),mn=parseInt($('pmin').value,10),dt=$('pdate').value;
+    if(!tx||!(mn>0)||!dt){var pe=$('perr');pe.textContent='Enter a task name, a date and minutes above 0 to add a personal task.';pe.classList.remove('hide');return}P.tasks.push({id:'k'+Date.now().toString(36)+(pid++),type:'personal',text:tx,date:dt,min:mn,done:false})}
+  save();plan();
+});
+function eff(t){var q=t.quiz,s=t.score;if(q===undefined||q===null)return s||0;return s?Math.round(.7*q+.3*s):q}
+function QZ(){return data.quiz=data.quiz||{qs:[],hist:[]}}
+var qz=null,qm='';
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),x=a[i];a[i]=a[j];a[j]=x}return a}
+function act(a,tid){var x=all().filter(function(q){return q.t.id===tid})[0];return a<40?'Concept recovery: revisit '+(x&&x.prev?'“'+x.prev.name+'” first, then ':'')+'this topic, and retest.':a<60?'Practice more, then retake the quiz.':a<80?'Good progress. Take another quiz to confirm it.':'Strong. Schedule a light revision later.'}
+function weak(){
+  var W=all().filter(function(x){return x.t.status==='weak'||x.t.status==='prac'||(eff(x.t)>0&&eff(x.t)<60)}),n={};QZ().qs.forEach(function(q){n[q.tid]=(n[q.tid]||0)+1});
+  if(!W.length){$('weakbox').innerHTML='<p class="mute">No weak areas yet. Topics appear here when you mark them weak or needs practice, or score below 60% on quizzes.</p>';return}
+  $('weakbox').innerHTML=W.map(function(x){var e=eff(x.t);return'<div class="wk"><b>'+esc(x.t.name)+'</b> <span class="mute">· '+esc(x.m.name)+'</span><br><span class="mute">'+(e?e+'% · '+band(e):'Not rated')+(x.prev&&x.prev.status!=='done'?' · Prerequisite: '+esc(x.prev.name):'')+'</span><br>'+esc(act(e,x.t.id))+'<div class="row" style="margin-top:6px"><button class="btn sm" data-wq="'+x.t.id+'">'+(n[x.t.id]?'Retest':'Add questions')+'</button><button class="btn sm ghost" data-wm="'+x.t.id+'">Open on map</button></div></div>'}).join('');
+}
+$('weakbox').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+  if(b.dataset.wm){sel=b.dataset.wm;render();$('map').scrollIntoView({behavior:'smooth'})}
+  if(b.dataset.wq){if(QZ().qs.some(function(q){return q.tid===b.dataset.wq}))start(b.dataset.wq);else{qm='This topic has no questions yet. Add some below.';quiz();$('quizbox').scrollIntoView({behavior:'smooth'})}}});
+function parseQ(txt,tid){
+  var ok=[],errs=[];txt.split(/\n\s*\n/).forEach(function(b,i){
+    b=b.trim();if(!b)return;var q='',o=[],a='',ex='';
+    b.split(/\r?\n/).forEach(function(l){l=l.trim();var m;
+      if(m=l.match(/^(?:q\d*\s*[:.)]|\d+[.)])\s*(.+)$/i))q=m[1];
+      else if(m=l.match(/^([A-D])\s*[).]\s*(.+)$/i))o.push(m[2]);
+      else if(m=l.match(/^answer\s*[:\-]\s*(.+)$/i))a=m[1].trim();
+      else if(m=l.match(/^explanation\s*[:\-]\s*(.+)$/i))ex=m[1];});
+    var idx=-1;
+    if(o.length>=2&&/^[A-D]$/i.test(a)){idx='ABCD'.indexOf(a.toUpperCase());if(idx>=o.length)idx=-1}
+    else if(!o.length&&/^(true|false)$/i.test(a)){o=['True','False'];idx=/^true$/i.test(a)?0:1}
+    if(!q)errs.push('Block '+(i+1)+': no question line starting with Q:');
+    else if(idx<0)errs.push('Block '+(i+1)+': needs options A) B) and a valid Answer, or Answer: True/False');
+    else ok.push({id:'q'+Date.now().toString(36)+(pid++),tid:tid,q:q,opts:o,ans:idx,exp:ex});});
+  return{ok:ok,errs:errs};
+}
+function start(scope){
+  var l=QZ().qs.filter(function(q){return scope==='all'||q.tid===scope});
+  if(!l.length){qm='No questions found for that choice.';quiz();return}
+  qz={list:shuffle(l),i:0,sel:[],chk:[],scope:scope,done:false};qm='';quiz();$('quizbox').scrollIntoView({behavior:'smooth'});
+}
+function finish(){
+  var c=0,w=0,s=0,per={};qz.list.forEach(function(q,i){var p=per[q.tid]=per[q.tid]||[0,0];p[1]++;
+    if(qz.sel[i]===null||qz.sel[i]===undefined)s++;else if(qz.sel[i]===q.ans){c++;p[0]++}else w++});
+  var H=QZ().hist;H.push({d:today(),scope:qz.scope,total:qz.list.length,c:c,w:w,s:s,per:per});
+  Object.keys(per).forEach(function(tid){var xs=all().filter(function(a){return a.t.id===tid})[0];if(!xs)return;var t=xs.t;
+    var last=H.filter(function(h){return h.per[tid]}).slice(-3),a=Math.round(last.reduce(function(m,h){return m+h.per[tid][0]/h.per[tid][1]*100},0)/last.length);
+    t.quiz=a;var st=t.status;
+    if(a<40)st='weak';else if(a<60)st='prac';else if(a<80){if(st==='none'||st==='weak'||st==='prac'||st==='rev')st='prog'}else if(st!=='done')st='rev';
+    t.status=st});
+  qz.done=true;qz.res={c:c,w:w,s:s,per:per};save();render();
+}
+function quiz(){
+  var Q=QZ(),h='';
+  if(qz&&qz.done){var r=qz.res,tot=qz.list.length,pc=Math.round(r.c/tot*100);
+    h='<div class="stats"><div class="stat"><b>'+tot+'</b><span>Questions</span></div><div class="stat"><b>'+r.c+'</b><span>Correct</span></div><div class="stat"><b>'+r.w+'</b><span>Incorrect</span></div><div class="stat"><b>'+r.s+'</b><span>Unanswered</span></div><div class="stat"><b>'+r.c+'/'+tot+'</b><span>Score</span></div><div class="stat"><b>'+pc+'%</b><span>Percentage</span></div></div><h3>Topic-wise result</h3>'+Object.keys(r.per).map(function(k){var p=r.per[k],a=Math.round(p[0]/p[1]*100);return'<p><b>'+esc(tname(k))+'</b>: '+p[0]+'/'+p[1]+' ('+a+'%). '+esc(act(a,k))+'</p>'}).join('')+'<p class="note">Your map, weak areas and understanding estimate have been updated. Replan your study plan to use the new results.</p><details><summary>Review answers</summary>'+qz.list.map(function(q,i){var s=qz.sel[i],ok=s===q.ans;return'<p><b>'+(i+1)+'. '+esc(q.q)+'</b><br>Your answer: '+(s===null||s===undefined?'Unanswered':esc(q.opts[s]))+(ok?' ✓':'')+'<br>Correct: '+esc(q.opts[q.ans])+(q.exp?'<br><span class="mute">'+esc(q.exp)+'</span>':'')+'</p>'}).join('')+'</details><div class="row"><button class="btn" id="qretake">Retake</button><button class="btn ghost" id="qclose">Back to quizzes</button></div>';
+  }else if(qz){var q=qz.list[qz.i],s=qz.sel[qz.i],ck=qz.chk[qz.i];
+    h='<p class="mute">Question '+(qz.i+1)+' of '+qz.list.length+' · '+esc(tname(q.tid))+'</p><h3>'+esc(q.q)+'</h3>'+q.opts.map(function(o,i){var c='opt';if(ck){if(i===q.ans)c+=' ok';else if(i===s)c+=' bad'}else if(i===s)c+=' sel';return'<button class="'+c+'" data-o="'+i+'"'+(ck?' disabled':'')+'>'+('ABCD'[i]&&q.opts.length>2||q.opts.length===2&&q.opts[0]!=='True'?'ABCD'[i]+') ':'')+esc(o)+'</button>'}).join('');
+    if(ck&&s!==null&&s!==undefined)h+='<p class="note"><b>'+(s===q.ans?'Correct.':'Not quite. Correct answer: '+esc(q.opts[q.ans])+'.')+'</b> '+esc(q.exp||'No explanation was provided with this question.')+'</p>';
+    h+='<div class="row">'+(ck?'<button class="btn" id="qnext">'+(qz.i===qz.list.length-1?'Finish':'Next')+'</button>':'<button class="btn" id="qchk"'+(s===undefined||s===null?' disabled':'')+'>Check answer</button><button class="btn ghost" id="qskip">Skip</button>')+'<button class="btn ghost" id="qclose">Quit</button></div>';
+  }else{
+    var n={};Q.qs.forEach(function(q){n[q.tid]=(n[q.tid]||0)+1});
+    var to=all().map(function(x){return'<option value="'+x.t.id+'">'+esc(x.t.name)+(n[x.t.id]?' ('+n[x.t.id]+')':'')+'</option>'}).join('');
+    var so=all().filter(function(x){return n[x.t.id]}).map(function(x){return'<option value="'+x.t.id+'">'+esc(x.t.name)+' ('+n[x.t.id]+')</option>'}).join('');
+    h='<p class="note">This page cannot write questions for you yet. Add your own questions from your notes or past papers. The answer key is exactly what you enter, so check it against your material.</p>'+(qm?'<p class="note warn">'+esc(qm)+'</p>':'')+'<label for="qt">Topic for these questions</label><select id="qt">'+to+'</select><label for="qtext" style="margin-top:10px">Questions</label><textarea id="qtext" placeholder="Q: Which traversal visits the root first?&#10;A) Inorder&#10;B) Preorder&#10;C) Postorder&#10;D) Level order&#10;Answer: B&#10;Explanation: Preorder is root, left, right.&#10;&#10;Q: A BST allows duplicates by default.&#10;Answer: False"></textarea><div class="row"><button class="btn" id="qadd">Add questions</button></div>';
+    if(so)h+='<h3 style="margin-top:20px">Take a quiz</h3><label for="qs">Quiz on</label><select id="qs"><option value="all">All topics (mixed)</option>'+so+'</select><div class="row"><button class="btn" id="qgo">Start quiz</button></div>';
+    if(Q.hist.length)h+='<h3 style="margin-top:20px">Quiz history</h3>'+Q.hist.slice(-5).reverse().map(function(x){return'<p style="margin:4px 0">'+x.d+' · '+(x.scope==='all'?'Mixed':esc(tname(x.scope)))+': '+x.c+'/'+x.total+' ('+Math.round(x.c/x.total*100)+'%)</p>'}).join('');
+  }
+  $('quizbox').innerHTML=h;
+}
+$('quizbox').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var id=b.id;
+  if(b.dataset.o!==undefined){qz.sel[qz.i]=parseInt(b.dataset.o,10);quiz();return}
+  if(id==='qadd'){var r=parseQ($('qtext').value,$('qt').value);if(r.ok.length){QZ().qs=QZ().qs.concat(r.ok);save()}
+    qm=(r.ok.length?'Added '+r.ok.length+' question(s). ':'No questions added. ')+(r.errs.length?'Skipped: '+r.errs.join('; '):'');quiz();weak();return}
+  if(id==='qgo'){start($('qs').value);return}
+  if(id==='qchk'){qz.chk[qz.i]=true;quiz();return}
+  if(id==='qskip'){qz.sel[qz.i]=null;qz.chk[qz.i]=true;id='qnext'}
+  if(id==='qnext'){if(qz.i===qz.list.length-1)finish();else{qz.i++;quiz()}return}
+  if(id==='qretake'){start(qz.scope);return}
+  if(id==='qclose'){qz=null;qm='';quiz()}});
+var hasDraft=false;try{var dr=localStorage.getItem('ss-syllabus-draft');if(dr){$('raw').value=dr;localStorage.removeItem('ss-syllabus-draft');hasDraft=true}}catch(e){}
+try{var sv=JSON.parse(ls('ss-map')||'null');if(sv&&sv.modules&&!hasDraft){data=sv;uid=1000;render();show(3)}}catch(e){}
+})();
+</script>
+</body>
+</html>

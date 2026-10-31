@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SkillSprinta admin</title>
+<style>
+:root{--ink:#1f2937;--mute:#6b7280;--line:#e5e7eb;--bg:#ffffff;--btn:#4f46e5}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ink:#e5e7eb;--mute:#9ca3af;--line:#374151;--bg:#111827;--btn:#818cf8}}
+:root[data-theme="dark"]{--ink:#e5e7eb;--mute:#9ca3af;--line:#374151;--bg:#111827;--btn:#818cf8}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding:16px max(16px,env(safe-area-inset-right)) 24px max(16px,env(safe-area-inset-left))}
+h1{font-size:1.4rem}h2{font-size:1.1rem;margin-top:28px}
+.wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+button{font:inherit;border:1px solid var(--line);background:transparent;color:var(--ink);padding:6px 10px;border-radius:8px;cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+.mute{color:var(--mute)}
+.stat{display:inline-block;margin:0 18px 8px 0}
+.stat b{font-size:1.4rem;display:block}
+</style>
+</head>
+<body>
+<h1>SkillSprinta admin</h1>
+<p class="mute">Admins see counts and masked phone numbers only. Profiles, progress and uploaded text are not shown here. Sign in on the app's Sync page first; this page uses the same session. Plan changes are manual until payments are connected.</p>
+<p id="msg" role="status"></p>
+<div id="main" hidden>
+  <div id="stats"></div>
+  <h2>Users (latest 200)</h2>
+  <div class="wrap"><table><thead><tr><th>Phone</th><th>Plan</th><th>Counted uploads</th><th>Joined</th><th></th></tr></thead><tbody id="users"></tbody></table></div>
+  <h2>Recent admin actions</h2>
+  <div class="wrap"><table><thead><tr><th>When (UTC)</th><th>Admin</th><th>Action</th><th>Target</th><th>Detail</th></tr></thead><tbody id="audit"></tbody></table></div>
+</div>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function call(method, path, body) {
+    var o = { method: method, credentials: 'same-origin', headers: {} };
+    if (body !== undefined) { o.headers['Content-Type'] = 'application/json'; o.body = JSON.stringify(body); }
+    return fetch(path, o).then(function (r) {
+      return r.json().then(function (d) { return { status: r.status, data: d }; }, function () { return { status: r.status, data: {} }; });
+    }, function () { return { status: 0, data: { error: 'Cannot reach the server.' } }; });
+  }
+  function fail(r) {
+    $('main').hidden = true;
+    $('msg').textContent = r.status === 401 ? 'Sign in on the app (Sync page) first, then reload this page.'
+      : r.status === 403 ? 'This account is not an admin.'
+      : (r.data.error || 'Something went wrong.');
+  }
+  function load() {
+    call('GET', '/api/admin/summary').then(function (r) {
+      if (r.status !== 200) return fail(r);
+      $('msg').textContent = ''; $('main').hidden = false;
+      var s = r.data;
+      $('stats').innerHTML = [['Users', s.users], ['Signed-in sessions', s.activeSessions], ['Counted uploads', s.countedUploads], ['Paid users', s.paidUsers]]
+        .map(function (x) { return '<span class="stat"><b>' + esc(x[1]) + '</b>' + esc(x[0]) + '</span>'; }).join('');
+    });
+    call('GET', '/api/admin/users').then(function (r) {
+      if (r.status !== 200) return;
+      $('users').innerHTML = r.data.users.map(function (u) {
+        var next = u.plan === 'paid' ? 'free' : 'paid';
+        return '<tr><td>' + esc(u.phone) + '</td><td>' + esc(u.plan) + '</td><td>' + esc(u.uploadUsed) + '</td><td>' + esc(u.createdAt.slice(0, 10)) +
+          '</td><td><button data-id="' + esc(u.id) + '" data-plan="' + next + '">Set ' + next + '</button></td></tr>';
+      }).join('') || '<tr><td colspan="5" class="mute">No users yet.</td></tr>';
+    });
+    call('GET', '/api/admin/audit').then(function (r) {
+      if (r.status !== 200) return;
+      $('audit').innerHTML = r.data.entries.map(function (e) {
+        return '<tr><td>' + esc(e.at.replace('T', ' ').slice(0, 16)) + '</td><td>' + esc(e.admin_phone) + '</td><td>' + esc(e.action) +
+          '</td><td>' + esc(e.target) + '</td><td>' + esc(e.detail) + '</td></tr>';
+      }).join('') || '<tr><td colspan="5" class="mute">No actions yet.</td></tr>';
+    });
+  }
+  $('users').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-id]');
+    if (!b) return;
+    b.disabled = true;
+    call('POST', '/api/admin/users/' + encodeURIComponent(b.getAttribute('data-id')) + '/plan', { plan: b.getAttribute('data-plan') }).then(function (r) {
+      if (r.status !== 200) { $('msg').textContent = r.data.error || 'Could not change the plan.'; b.disabled = false; return; }
+      load();
+    });
+  });
+  load();
+})();
+</script>
+</body>
+</html>

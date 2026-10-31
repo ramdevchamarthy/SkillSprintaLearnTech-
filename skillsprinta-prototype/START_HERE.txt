@@ -1,0 +1,22 @@
+SkillSprinta LearnTech prototype
+================================
+
+Requirements: Node.js 22 or newer. For OCR of scanned PDFs (optional): tesseract and poppler-utils.
+
+1. Start the app and API:
+     SESSION_SECRET=change-me-to-a-long-random-string node server.js
+   Then open http://localhost:8787
+
+2. Demo sign-in: on the "Sync" page, enter any 10-digit Indian mobile number. The demo SMS shows
+   the 6-digit code on screen. No real text message is sent.
+
+3. Run the tests:
+     node --test server.test.js      (48 API, OCR and security tests)
+     node --test e2e.test.js         (11 browser tests; first: npm i playwright && npx playwright install chromium)
+
+Files:
+- server.js          API server, OCR, AI tutor and contact form (no npm dependencies)
+- public/            the app (index.html), SprintMap (sprintmap.html) and the admin page (/admin)
+- README.md          all settings, endpoints and limits
+- Dockerfile, docker-compose.yml, Caddyfile, .env.example   deployment with HTTPS (not run yet)
+- source/            editable app files and sample documents

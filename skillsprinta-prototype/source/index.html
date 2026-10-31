@@ -1,0 +1,1427 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>SkillSprinta LearnTech</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#f6f7fb;--surface:#ffffff;--ink:#0d1330;--mute:#4f5777;--line:#dde1ee;--input:#ffffff;--accent:#4f46e5;--accent2:#7a3cff;--grad:linear-gradient(120deg,#2f5bff,#7a3cff);--done:#12a26b;--weak:#d93a3f;--prac:#b25d00;--tint:#eceefe;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070b22;--surface:#0f1636;--ink:#eef1ff;--mute:#b3bcdc;--line:#232c57;--input:#0b1230;--accent:#9d8bff;--accent2:#7a3cff;--done:#34d399;--weak:#ff7b80;--prac:#ffb14d;--tint:#1a2250;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#070b22;--surface:#0f1636;--ink:#eef1ff;--mute:#b3bcdc;--line:#232c57;--input:#0b1230;--accent:#9d8bff;--accent2:#7a3cff;--done:#34d399;--weak:#ff7b80;--prac:#ffb14d;--tint:#1a2250;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 Figtree,system-ui,sans-serif;min-height:100%}
+h1,h2,h3{font-family:'Bricolage Grotesque',Figtree,sans-serif;line-height:1.15;margin:0 0 .45em;text-wrap:balance}
+h1{font-size:clamp(1.9rem,5vw,2.7rem);font-weight:800}h2{font-size:1.45rem}h3{font-size:1.08rem}
+p{margin:.4em 0}
+.wrap{max-width:1080px;margin:0 auto;padding-block:20px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mute{color:var(--mute)}
+.hide{display:none!important}
+[hidden]{display:none!important}
+a{color:var(--accent)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:600}
+.brand b{font-weight:800}
+.mark{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:11px;background:var(--grad);color:#fff;font:800 1.2rem 'Bricolage Grotesque',sans-serif;flex:none}
+.nav{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
+.nav a{min-height:40px;display:inline-flex;align-items:center;padding:0 12px;border-radius:10px;color:var(--ink);text-decoration:none;font-weight:600}
+.nav a[aria-current="page"]{background:var(--tint);color:var(--accent)}
+.nav a:focus-visible,.btn:focus-visible,.icon:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 1px 2px rgba(10,16,48,.05)}
+.grid2,.grid3{display:grid;gap:14px}
+.grid2{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.grid3{grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:12px}
+.stat b{display:block;font:800 1.7rem 'Bricolage Grotesque',sans-serif;font-variant-numeric:tabular-nums}
+.stat span{font-size:.9rem;color:var(--mute)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border-radius:12px;border:1.5px solid transparent;font:600 1rem Figtree,sans-serif;cursor:pointer;color:#fff;background:var(--grad);text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.sm{min-height:40px;padding:0 14px;font-size:.95rem}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.icon{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font-size:1.1rem}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--input);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px}
+textarea{min-height:90px;resize:vertical}
+input::placeholder,textarea::placeholder{color:var(--mute);opacity:.85}
+label{display:block;font-size:.9rem;color:var(--mute);margin:12px 0 4px}
+label:first-child{margin-top:0}
+.field-err{color:var(--weak);font-size:.9rem;margin:6px 0 0}
+.note{font-size:.92rem;color:var(--mute);border-left:3px solid var(--accent2);padding-left:10px;margin:12px 0}
+.badge{display:inline-flex;align-items:center;min-height:28px;padding:0 10px;border-radius:99px;background:var(--tint);color:var(--accent);font-weight:600;font-size:.85rem}
+.eyebrow{font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--accent);margin:0 0 6px}
+.hero{padding-block:24px 8px}
+.lead{font-size:1.08rem;color:var(--mute);max-width:60ch}
+.split{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
+.list{margin:0;padding:0;list-style:none}
+.list li{padding:10px 0;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.list li:last-child{border-bottom:0}
+.av{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;color:#fff;font:800 1.3rem 'Bricolage Grotesque',sans-serif;flex:none}
+.avs{display:flex;flex-wrap:wrap;gap:10px}
+.avs label{margin:0;cursor:pointer;position:relative}
+.avs input{position:absolute;opacity:0;width:1px;height:1px;min-height:0;padding:0}
+.avs input:checked+.av{outline:3px solid var(--accent2);outline-offset:3px}
+.avs input:focus-visible+.av{outline:3px solid var(--accent);outline-offset:3px}
+.hd{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hd h2{margin:0}
+.bar-track{height:10px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar-fill{height:100%;background:var(--grad);border-radius:99px}
+.sec{margin-top:18px}
+.iframe-wrap{border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--bg)}
+#smframe{display:block;width:100%;height:82vh;min-height:680px;border:0}
+.foot{color:var(--mute);font-size:.9rem;border-top:1px solid var(--line);margin-top:24px}
+.modal{position:fixed;inset:0;background:rgba(5,8,25,.6);display:grid;place-items:center;padding:16px;z-index:60}
+.dialog{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:22px;width:100%;max-width:520px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.splash{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:80;transition:opacity .5s ease}
+.splash.gone{opacity:0;pointer-events:none}
+.splash-in{text-align:center;animation:rise 1.2s ease both}
+.splash .mark{width:88px;height:88px;border-radius:24px;font-size:2.6rem;box-shadow:0 0 40px rgba(122,60,255,.55)}
+.splash-name{font:800 1.6rem 'Bricolage Grotesque',sans-serif;margin-top:14px}
+.splash-tag{color:var(--mute);margin-top:4px}
+@keyframes rise{0%{opacity:0;transform:scale(.92)}100%{opacity:1;transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.splash-in{animation:none}.splash{transition:none}}
+.dots{display:flex;gap:6px;margin:10px 0}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--accent2)}
+.chk{display:flex;gap:10px;align-items:flex-start;margin:0;padding:10px 0;border-bottom:1px solid var(--line);color:var(--ink);font-size:1rem}
+.chk:last-child{border-bottom:0}
+.chk input{width:20px;height:20px;min-height:0;margin-top:3px;flex:none;padding:0}
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.seg button{min-height:40px;padding:0 14px;border-radius:99px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font:600 .95rem Figtree,sans-serif}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.hbar{margin:10px 0}
+.hbar-top{display:flex;justify-content:space-between;gap:8px;font-size:.95rem;flex-wrap:wrap}
+.track{height:12px;border-radius:99px;background:var(--line);overflow:hidden;margin-top:4px}
+.fill{height:100%;background:var(--grad);border-radius:99px}
+.tbl{width:100%;border-collapse:collapse;font-size:.95rem;display:block;overflow-x:auto}
+.tbl th,.tbl td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl th{color:var(--mute);font-weight:600}
+.lvl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px}
+.lvl div{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px}
+.lvl div.reached{border-color:var(--done)}
+.lvl div.next{border-color:var(--accent2)}
+.ms{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)}
+.ms:last-child{border-bottom:0}
+.ms i{width:22px;height:22px;border-radius:50%;flex:none;border:2px solid var(--line);margin-top:1px}
+.ms.yes i{background:var(--done);border-color:var(--done)}
+.drop{border:2px dashed var(--line);border-radius:16px;padding:20px;text-align:center;background:var(--input)}
+.drop.over{border-color:var(--accent2)}
+.ext{white-space:pre-wrap;font-size:.85rem;max-height:260px;overflow:auto;background:var(--input);border:1px solid var(--line);border-radius:10px;padding:10px;margin:8px 0 0}
+.opt{display:block;width:100%;text-align:left;min-height:48px;padding:10px 14px;margin:8px 0;border-radius:12px;border:1.5px solid var(--line);background:var(--input);color:var(--ink);font:inherit;cursor:pointer}
+.opt.sel{border-color:var(--accent2);background:var(--tint)}
+.doc h3{margin-top:20px;font-size:1.1rem}
+.doc p,.doc li{line-height:1.65}
+.doc ul{padding-left:20px}
+.draft{border:1.5px solid var(--prac);background:var(--tint);border-radius:12px;padding:12px 14px;margin:12px 0}
+.ph{background:var(--tint);border-radius:6px;padding:0 4px;font-weight:600}
+.toast{position:fixed;left:16px;right:16px;bottom:16px;max-width:460px;margin:0 auto;background:var(--ink);color:var(--bg);border-radius:12px;padding:12px 16px;z-index:70}
+</style>
+</head>
+<body>
+
+<div id="splash" class="splash" aria-hidden="true"><div class="splash-in"><span class="mark">S</span><div class="splash-name">SkillSprinta LearnTech</div><div class="splash-tag">Learn Smarter. Sprint Faster. Achieve More.</div></div></div>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#home"><span class="mark">S</span><span>SkillSprinta <b>LearnTech</b></span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#home" data-nav="home">Home</a>
+      <a href="#upload" data-nav="upload">Upload</a>
+      <a href="#sprintmap" data-nav="sprintmap">SprintMap™</a>
+      <a href="#exam" data-nav="exam">Exam Sprint</a>
+      <a href="#tutor" data-nav="tutor">AI tutor</a>
+      <a href="#analytics" data-nav="analytics">Analytics</a>
+      <a href="#passport" data-nav="passport">Skill Passport</a>
+      <a href="#notifications" data-nav="notifications" id="nav-notif">Notifications</a>
+      <a href="#plans" data-nav="plans">Plans</a>
+      <a href="#profile" data-nav="profile">Profile</a>
+    </nav>
+    <button class="icon" id="theme" aria-label="Switch between light and dark mode">◐</button>
+  </div>
+</header>
+
+<main class="wrap" id="app">
+
+  <!-- Welcome / demo entry -->
+  <section id="v-welcome" class="view" hidden>
+    <div class="hero split">
+      <div>
+        <p class="eyebrow">Demo mode</p>
+        <h1>Your syllabus. Your pace. Your AI-powered learning journey.</h1>
+        <p class="lead">Turn your syllabus into a study plan, find the topics you are weak in, and track progress before the exam. Everything is saved in this browser.</p>
+        <p><a class="btn ghost" id="w-sync" href="#sync" hidden>Already have an account? Sign in to sync</a></p>
+      </div>
+      <form id="start" class="card" novalidate>
+        <h2>Start in demo mode</h2>
+        <label for="sname">Your name</label>
+        <input id="sname" autocomplete="given-name" placeholder="e.g. Ananya" maxlength="40">
+        <p id="sname-err" class="field-err hide" role="alert"></p>
+        <div class="row"><button class="btn" type="submit">Start in demo mode</button></div>
+        <p class="note">Without signing in, nothing is sent to a server. Signing in to sync needs the prototype server; its sign-in codes are shown as demo SMS, and no real text message is sent. AI tutoring is not connected in this prototype.</p>
+      </form>
+    </div>
+    <div class="grid3 sec">
+      <div class="card"><h3>SprintMap™</h3><p class="mute">A connected map of your topics, with statuses and prerequisites in syllabus order.</p></div>
+      <div class="card"><h3>Study planner</h3><p class="mute">Turns your exam date and daily hours into a schedule, with weak topics first.</p></div>
+      <div class="card"><h3>Quizzes</h3><p class="mute">Paste your own questions, get scored with explanations, and update your map.</p></div>
+    </div>
+  </section>
+
+  <!-- Upload -->
+  <section id="v-upload" class="view" hidden></section>
+
+  <!-- Dashboard -->
+  <section id="v-home" class="view" hidden></section>
+
+  <!-- SprintMap -->
+  <section id="v-sprintmap" class="view" hidden>
+    <div class="hd" style="margin-bottom:12px"><h2>SprintMap™</h2><span class="badge">Saved in this browser</span></div>
+    <div class="iframe-wrap"><iframe id="smframe" src="sprintmap.html" title="SprintMap™: syllabus map, study planner and quizzes"></iframe></div>
+  </section>
+
+  <!-- Notifications -->
+  <section id="v-notifications" class="view" hidden></section>
+
+  <!-- Skill Passport -->
+  <section id="v-passport" class="view" hidden></section>
+
+  <!-- Analytics -->
+  <section id="v-analytics" class="view" hidden></section>
+
+  <!-- Legal and contact (drafts) -->
+  <section id="v-contact" class="view" hidden></section>
+  <section id="v-terms" class="view" hidden></section>
+  <section id="v-privacy" class="view" hidden></section>
+
+  <!-- AI tutor -->
+  <section id="v-tutor" class="view" hidden></section>
+
+  <!-- Mock test -->
+  <section id="v-mock" class="view" hidden></section>
+
+  <!-- Exam Sprint -->
+  <section id="v-exam" class="view" hidden></section>
+
+  <!-- Plans -->
+  <section id="v-plans" class="view" hidden>
+    <h2>Plans</h2>
+    <p class="mute">Your current plan is shown below. Subscriptions are not available yet.</p>
+    <div class="grid2 sec">
+      <div class="card">
+        <div class="hd"><h3>Free</h3><span class="badge" id="plan-current">Current plan</span></div>
+        <p class="mute">Price: to be set at launch.</p>
+        <ul class="list">
+          <li>Core learning, SprintMap™, planner and quizzes</li>
+          <li>Up to 5 PDF or PPT study files for AI analysis (available once the backend is live)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="hd"><h3>Subscription</h3></div>
+        <p class="mute">Price: to be set at launch.</p>
+        <ul class="list">
+          <li>Unlimited study-file uploads for AI analysis, within technical and acceptable-use limits</li>
+          <li>Expanded AI usage and advanced analytics</li>
+        </ul>
+        <div class="row"><button class="btn" id="subscribe" type="button">Subscribe</button></div>
+        <p id="subscribe-msg" class="note hide" role="status"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Profile -->
+  <section id="v-sync" class="view" hidden>
+    <h2>Sync across devices</h2>
+      <div class="card" id="sync-card" hidden>
+        <h3>Account sync</h3>
+        <p class="mute" id="sync-status" role="status">Checking sync…</p>
+        <div id="sync-out" hidden><div class="row"><button class="btn ghost" id="sy-signout" type="button">Sign out of sync</button></div></div>
+        <div id="sync-in" hidden>
+          <label for="sy-phone">Mobile number (+91)</label>
+          <div class="row"><input id="sy-phone" type="tel" inputmode="numeric" maxlength="14" autocomplete="tel-national" placeholder="10-digit number"><button class="btn" id="sy-send" type="button">Send code</button></div>
+          <p id="sy-phone-err" class="field-err hide" role="alert"></p>
+          <div id="sy-codebox" hidden>
+            <label for="sy-code">6-digit code</label>
+            <div class="row"><input id="sy-code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="123456"><button class="btn" id="sy-verify" type="button">Verify and sign in</button></div>
+            <p id="sy-code-err" class="field-err hide" role="alert"></p>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section id="v-profile" class="view" hidden>
+    <h2>Profile and preferences</h2>
+    <form id="pform" class="card sec" novalidate>
+      <div class="grid2">
+        <div>
+          <label for="pf-name">Display name</label>
+          <input id="pf-name" maxlength="40" autocomplete="name">
+          <p id="pf-name-err" class="field-err hide" role="alert"></p>
+        </div>
+        <div>
+          <label>Avatar</label>
+          <div class="avs" id="pf-avs"></div>
+        </div>
+        <div><label for="pf-college">College</label><input id="pf-college" maxlength="80"></div>
+        <div><label for="pf-degree">Degree</label><input id="pf-degree" maxlength="60" placeholder="e.g. B.Tech"></div>
+        <div><label for="pf-branch">Branch</label><input id="pf-branch" maxlength="60" placeholder="e.g. Computer Science"></div>
+        <div class="grid2" style="gap:12px">
+          <div><label for="pf-year">Year of study</label><select id="pf-year"><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+          <div><label for="pf-sem">Semester</label><select id="pf-sem"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+        </div>
+        <div><label for="pf-subjects">Subjects this semester</label><input id="pf-subjects" maxlength="200" placeholder="e.g. Data Structures, DBMS"></div>
+        <div><label for="pf-exam">Examination date</label><input id="pf-exam" type="date"><p id="pf-exam-err" class="field-err hide" role="alert"></p></div>
+        <div><label for="pf-hours">Available study time per day (hours)</label><input id="pf-hours" type="number" min="0.5" max="12" step="0.5"><p id="pf-hours-err" class="field-err hide" role="alert"></p></div>
+        <div><label for="pf-level">Current understanding level</label>
+          <select id="pf-level"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></div>
+        <div><label for="pf-lang">Preferred explanation language</label>
+          <select id="pf-lang"><option>English</option><option>Telugu</option><option>Hindi</option></select>
+          <p class="note" style="margin-top:6px">Your choice is saved. Translated explanations need the AI tutor, which is not connected yet.</p></div>
+        <div><label for="pf-style">Learning preference</label>
+          <select id="pf-style"><option>Text</option><option>Worked examples</option><option>Visual explanations</option><option>Mixed</option></select></div>
+      </div>
+      <label for="pf-goals">Academic goals</label>
+      <textarea id="pf-goals" maxlength="400" placeholder="e.g. Clear the DSA end-semester exam with at least 70%"></textarea>
+      <div class="row"><button class="btn" type="submit">Save profile</button><span id="pf-saved" class="mute hide" role="status">Saved.</span></div>
+    </form>
+
+    <div class="grid2 sec">
+      <div class="card">
+        <h3>Onboarding tutorial</h3>
+        <p class="mute">Replay the walkthrough of uploads, subjects, planning and SprintMap™.</p>
+        <div class="row"><button class="btn ghost" id="replay" type="button">Replay tutorial</button></div>
+      </div>
+      <div class="card">
+        <h3>Account</h3>
+        <p class="mute">Log out ends this demo session. Your SprintMap™ progress stays in this browser.</p>
+        <p><a class="btn ghost" id="p-sync" href="#sync" hidden>Sync across devices</a></p>
+        <div class="row"><button class="btn ghost" id="logout" type="button">Log out</button></div>
+        <h3 class="sec" style="font-size:1rem">Delete all data</h3>
+        <p class="mute">Removes your profile, SprintMap™, plan and quiz questions from this browser.</p>
+        <div class="row" id="del-row"><button class="btn ghost" id="del" type="button">Delete all my data</button></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap foot">
+  <p>SkillSprinta LearnTech · Learn Smarter. Sprint Faster. Achieve More.</p>
+  <p><a href="#contact">Contact</a> · <a href="#terms">Terms</a> · <a href="#privacy">Privacy policy</a></p>
+  <p>A prototype for the Wadhwani entrepreneurship evaluation. In this prototype your data stays in your browser unless you sign in to sync it to the prototype server.</p>
+</footer>
+
+<!-- Onboarding tutorial -->
+<div id="tour" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="t-title">
+  <div class="dialog">
+    <p class="mute" id="t-count" style="margin:0"></p>
+    <div class="dots" id="t-dots"></div>
+    <h2 id="t-title"></h2>
+    <p id="t-body"></p>
+    <div class="row" style="justify-content:space-between">
+      <button class="btn ghost sm" id="t-skip" type="button">Skip</button>
+      <div class="row" style="margin:0"><button class="btn ghost" id="t-back" type="button">Back</button><button class="btn" id="t-next" type="button">Next</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- In-page confirmation (confirm() is not available in the viewer) -->
+<div id="ask" class="modal" hidden role="alertdialog" aria-modal="true" aria-labelledby="ask-msg">
+  <div class="dialog">
+    <p id="ask-msg"></p>
+    <div class="row"><button class="btn" id="ask-yes" type="button">Yes, continue</button><button class="btn ghost" id="ask-no" type="button">Cancel</button></div>
+  </div>
+</div>
+
+<div id="toast" class="toast hide" role="status"></div>
+
+<script>
+(function(){
+var $=function(id){return document.getElementById(id)};
+var root=document.documentElement,DAY=864e5;
+function get(k){try{var v=localStorage.getItem(k);return v===null?null:JSON.parse(v)}catch(e){return null}}
+function put(k,v){try{localStorage.setItem(k,JSON.stringify(v));if(k.indexOf('ss-')===0)touchSync();return true}catch(e){return false}}
+function del(k){try{localStorage.removeItem(k);if(k.indexOf('ss-')===0)touchSync()}catch(e){}}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function p2(n){return (n<10?'0':'')+n}
+function today(){var d=new Date();return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
+function diffD(a,b){return Math.round((new Date(b+'T00:00:00')-new Date(a+'T00:00:00'))/DAY)}
+function fmtD(s){return new Date(s+'T00:00:00').toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})}
+function toast(msg){var t=$('toast');t.textContent=msg;t.classList.remove('hide');clearTimeout(toast.t);toast.t=setTimeout(function(){t.classList.add('hide')},2600)}
+
+/* ---------- theme (shared with SprintMap) ---------- */
+function themeNow(){return root.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}
+function syncFrame(){try{var d=$('smframe').contentDocument;if(d&&d.documentElement)d.documentElement.setAttribute('data-theme',themeNow())}catch(e){}}
+function setTheme(t){root.setAttribute('data-theme',t);try{localStorage.setItem('ss-theme',t)}catch(e){}syncFrame()}
+try{var st=localStorage.getItem('ss-theme');if(st==='light'||st==='dark')root.setAttribute('data-theme',st)}catch(e){}
+$('theme').onclick=function(){setTheme(themeNow()==='dark'?'light':'dark')};
+$('smframe').onload=syncFrame;
+
+/* ---------- in-page confirm ---------- */
+var askCb=null,askNo=null;
+function ask(msg,cb,no){$('ask-msg').textContent=msg;askCb=cb;askNo=no||null;$('ask').hidden=false;$('ask-yes').focus()}
+$('ask-yes').onclick=function(){var cb=askCb;askCb=null;askNo=null;$('ask').hidden=true;if(cb)cb()};
+$('ask-no').onclick=function(){var no=askNo;askCb=null;askNo=null;$('ask').hidden=true;if(no)no()};
+
+/* ---------- profile ---------- */
+var AV=[['#4f46e5','#7a3cff'],['#0ea5a4','#2563eb'],['#f97316','#e11d48'],['#16a34a','#0d9488'],['#7c3aed','#db2777'],['#2563eb','#4f46e5']];
+var DEF={name:'',avatar:0,college:'',degree:'',branch:'',year:'1',sem:'1',subjects:'',exam:'',hours:'2',level:'Beginner',lang:'English',style:'Mixed',goals:''};
+function profile(){return get('ss-profile')}
+function avHTML(p,size){var c=AV[p.avatar||0]||AV[0];var ini=(p.name||'?').trim().charAt(0).toUpperCase()||'?';return '<span class="av" aria-hidden="true" style="background:linear-gradient(135deg,'+c[0]+','+c[1]+')">'+esc(ini)+'</span>'}
+function buildAvatars(){var h='';AV.forEach(function(c,i){h+='<label><input type="radio" name="av" value="'+i+'" aria-label="Avatar '+(i+1)+'"><span class="av" style="background:linear-gradient(135deg,'+c[0]+','+c[1]+')">?</span></label>'});$('pf-avs').innerHTML=h}
+buildAvatars();
+function fillForm(p){
+  $('pf-name').value=p.name;$('pf-college').value=p.college;$('pf-degree').value=p.degree;$('pf-branch').value=p.branch;
+  $('pf-year').value=p.year;$('pf-sem').value=p.sem;$('pf-subjects').value=p.subjects;$('pf-exam').value=p.exam;
+  $('pf-hours').value=p.hours;$('pf-level').value=p.level;$('pf-lang').value=p.lang;$('pf-style').value=p.style;$('pf-goals').value=p.goals;
+  var r=document.querySelector('input[name="av"][value="'+(p.avatar||0)+'"]');if(r)r.checked=true;
+  updAvatarInitials();
+}
+function updAvatarInitials(){var ini=($('pf-name').value.trim().charAt(0)||'?').toUpperCase();document.querySelectorAll('#pf-avs .av').forEach(function(s){s.textContent=ini})}
+$('pf-name').addEventListener('input',updAvatarInitials);
+function readForm(){
+  var av=document.querySelector('input[name="av"]:checked');
+  return{name:$('pf-name').value.trim(),avatar:av?parseInt(av.value,10):0,college:$('pf-college').value.trim(),degree:$('pf-degree').value.trim(),
+    branch:$('pf-branch').value.trim(),year:$('pf-year').value,sem:$('pf-sem').value,subjects:$('pf-subjects').value.trim(),
+    exam:$('pf-exam').value,hours:$('pf-hours').value,level:$('pf-level').value,lang:$('pf-lang').value,style:$('pf-style').value,goals:$('pf-goals').value.trim()};
+}
+function setErr(id,msg){var e=$(id);e.textContent=msg||'';e.classList.toggle('hide',!msg)}
+function validate(v){
+  var ok=true,first=null;
+  setErr('pf-name-err',v.name?'':'Enter a display name.');if(!v.name){ok=false;first=first||$('pf-name')}
+  var h=parseFloat(v.hours),hm=(h>0&&h<=12);
+  setErr('pf-hours-err',hm?'':'Enter study hours between 0.5 and 12.');if(!hm){ok=false;first=first||$('pf-hours')}
+  var ex=!v.exam||diffD(today(),v.exam)>=0;
+  setErr('pf-exam-err',ex?'':'Choose today or a later date.');if(!ex){ok=false;first=first||$('pf-exam')}
+  if(!ok&&first)first.focus();
+  return ok;
+}
+$('pform').addEventListener('submit',function(e){
+  e.preventDefault();var v=readForm();if(!validate(v))return;
+  put('ss-profile',v);$('pf-saved').classList.remove('hide');setTimeout(function(){$('pf-saved').classList.add('hide')},2000);
+  toast('Profile saved.');renderHome();
+});
+$('replay').onclick=function(){startTour()};
+$('logout').onclick=function(){if(syncUser){syncReady=false;clearTimeout(syncTimer);apiCall('POST','/api/auth/logout',{});syncUser=null;renderSync();syncMsg('Signed out of sync. Your account copy is kept.')}del('ss-profile');toast('Logged out. Your SprintMap™ progress is still saved in this browser.');location.hash='welcome';route()};
+var delStep=0;
+$('del').onclick=function(){
+  if(delStep===0){delStep=1;$('del').textContent='Yes, delete everything';var c=document.createElement('button');c.className='btn ghost';c.id='del-no';c.textContent='Cancel';c.type='button';c.onclick=function(){delStep=0;$('del').textContent='Delete all my data';c.remove()};$('del-row').appendChild(c);return}
+  if(syncUser)apiCall('POST','/api/data/clear',{});
+  del('ss-profile');del('ss-map');del('ss-onboarded');delStep=0;
+  var c2=$('del-no');if(c2)c2.remove();
+  $('del').textContent='Delete all my data';toast('All data in this browser was deleted.');
+  syncFrameMap();location.hash='welcome';route();
+};
+function syncFrameMap(){try{$('smframe').src=$('smframe').src}catch(e){}}
+
+/* ---------- welcome ---------- */
+$('start').addEventListener('submit',function(e){
+  e.preventDefault();var n=$('sname').value.trim(),err=$('sname-err');
+  if(!n){err.textContent='Enter a name to start.';err.classList.remove('hide');$('sname').focus();return}
+  err.classList.add('hide');
+  var p=Object.assign({},DEF,{name:n});put('ss-profile',p);
+  location.hash='home';route();startTour();
+});
+
+/* ---------- map helpers ---------- */
+function topicsOf(m){var out=[];if(m&&m.modules)m.modules.forEach(function(mod,mi){mod.topics.forEach(function(t,ti){out.push({t:t,mod:mod,prev:ti?mod.topics[ti-1]:null})})});return out}
+function eff(t){var q=t.quiz,s=t.score;if(q==null)return s||0;return s?Math.round(.7*q+.3*s):q}
+function rated(t){return t.quiz!=null||(t.score||0)>0}
+var W={weak:5,prac:4,prog:3,none:2,rev:1,done:0};
+function nextTopic(list){
+  var L=list.filter(function(x){return x.t.status!=='done'});if(!L.length)return null;
+  var best=L.reduce(function(a,b){return W[b.t.status]>W[a.t.status]?b:a});
+  if(best.prev&&best.prev.status!=='done'&&best.prev.status!=='rev'&&best.t.status!=='rev'){
+    var pr=list.filter(function(x){return x.t===best.prev})[0];
+    return{x:pr,why:'It comes before “'+best.t.name+'” in your syllabus, and it is not finished yet.'}
+  }
+  return{x:best,why:best.t.status==='weak'?'You marked it as a weak area.':best.t.status==='prac'?'You marked it as needing practice.':best.t.status==='prog'?'You already started it, so finishing it keeps momentum.':'It is the next topic in syllabus order.'};
+}
+
+/* ---------- dashboard ---------- */
+function renderHome(){
+  var p=profile();if(!p)return;
+  var m=get('ss-map'),T=today(),list=topicsOf(m),total=list.length;
+  var done=list.filter(function(x){return x.t.status==='done'}).length;
+  var weak=list.filter(function(x){return x.t.status==='weak'||x.t.status==='prac'||(rated(x.t)&&eff(x.t)<60)});
+  var hist=(m&&m.quiz&&m.quiz.hist)||[];
+  var avgQ=hist.length?Math.round(hist.reduce(function(a,h){return a+h.c/h.total*100},0)/hist.length):null;
+  var plan=m&&m.plan,ptasks=plan?plan.tasks.filter(function(t){return t.type!=='personal'}):[];
+  var ptDone=ptasks.filter(function(t){return t.done}).length;
+  var exam=p.exam||(plan&&plan.exam);
+  var days=exam?diffD(T,exam):null;
+  var todays=plan?plan.tasks.filter(function(t){return t.date===T&&!t.done}):[];
+  var missed=plan?plan.tasks.filter(function(t){return !t.done&&t.date<T&&t.type!=='personal'}).length:0;
+  var nxt=nextTopic(list);
+  var subj=p.subjects||'Not added yet';
+  var h='';
+  h+='<div class="hd"><span class="av" style="background:linear-gradient(135deg,'+(AV[p.avatar||0]||AV[0])[0]+','+(AV[p.avatar||0]||AV[0])[1]+')">'+esc((p.name||'?').charAt(0).toUpperCase())+'</span><div><p class="eyebrow" style="margin:0">Welcome back</p><h2 style="margin:0">'+esc(p.name)+'</h2><p class="mute" style="margin:0">'+esc(p.college||'College not added')+(p.branch?' · '+esc(p.branch):'')+(p.degree?' · '+esc(p.degree):'')+'</p></div></div>';
+  h+='<div class="stats sec">'
+    +'<div class="card stat"><b>'+(exam?(days>=0?days:'Passed'):'–')+'</b><span>'+(exam?(days>=0?'Days to your exam':'Exam date has passed'):'Add your exam date in Profile')+'</span></div>'
+    +'<div class="card stat"><b>'+done+' / '+total+'</b><span>Completed topics</span></div>'
+    +'<div class="card stat"><b>'+(total-done)+'</b><span>Pending topics</span></div>'
+    +'<div class="card stat"><b>'+(avgQ===null?'–':avgQ+'%')+'</b><span>'+(avgQ===null?'No quizzes taken yet':'Average quiz score ('+hist.length+' quizzes)')+'</span></div>'
+    +'</div>';
+  h+='<div class="split sec">'
+    +'<div class="card"><h2>Continue learning</h2>'
+    +(nxt?'<h3>'+esc(nxt.x.t.name)+'</h3><p class="mute">'+esc(nxt.x.mod.name)+'</p><p>'+esc(nxt.why)+'</p><div class="row"><a class="btn" href="#sprintmap">Resume in SprintMap™</a></div>'
+      :'<p class="mute">No topics yet. Paste your syllabus in SprintMap™ to get your first recommendation.</p><div class="row"><a class="btn" href="#sprintmap">Open SprintMap™</a></div>')
+    +'</div>'
+    +'<div class="card"><h2>Study-plan completion</h2>'
+    +(ptasks.length?'<div class="bar-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+Math.round(ptDone/ptasks.length*100)+'" aria-label="Study plan completion"><div class="bar-fill" style="width:'+Math.round(ptDone/ptasks.length*100)+'%"></div></div><p class="mute" style="margin-top:8px">'+ptDone+' of '+ptasks.length+' scheduled blocks done'+(missed?' · '+missed+' missed':'')+'</p>'
+      :'<p class="mute">No plan yet. Generate one in SprintMap™ from your exam date and daily hours.</p>')
+    +'</div></div>';
+  h+='<div class="split sec">'
+    +'<div class="card"><h2>Today’s learning sprint</h2>'
+    +(todays.length?'<ul class="list">'+todays.map(function(t){var nm=t.type==='personal'?t.text:(list.filter(function(x){return x.t.id===t.tid})[0]||{t:{name:'(removed topic)'}}).t.name;return '<li><span>'+esc(nm)+'</span><span class="mute">'+t.min+' min · '+esc(t.type==='personal'?'Personal':t.type)+'</span></li>'}).join('')+'</ul><div class="row"><a class="btn sm" href="#sprintmap">Start or resume in SprintMap™</a></div>'
+      :'<p class="mute">Nothing scheduled for today.'+(plan?'':' Generate a plan in SprintMap™ first.')+'</p><div class="row"><a class="btn ghost sm" href="#sprintmap">Open SprintMap™</a></div>')
+    +'</div>'
+    +'<div class="card"><h2>Weak topics to revise</h2>'
+    +(weak.length?'<ul class="list">'+weak.slice(0,6).map(function(x){return '<li><span>'+esc(x.t.name)+'</span><span class="badge">'+esc(x.t.status==='weak'?'Weak area':x.t.status==='prac'?'Needs practice':rated(x.t)?eff(x.t)+'%':'')+'</span></li>'}).join('')+'</ul>'
+      :'<p class="mute">No weak topics yet. Topics appear here when you mark them, or when a quiz score is below 60%.</p>')
+    +'</div></div>';
+  h+='<div class="split sec">'
+    +'<div class="card"><h2>Recent activity</h2>'
+    +(hist.length?'<ul class="list">'+hist.slice(-5).reverse().map(function(x){return '<li><span>'+esc(x.d)+' · '+(x.scope==='all'?'Mixed quiz':'Topic quiz')+'</span><span>'+x.c+' / '+x.total+' correct</span></li>'}).join('')+'</ul>':'<p class="mute">No activity yet. Your quiz results will appear here.</p>')
+    +'</div>'
+    +'<div class="card"><h2>Your study set-up</h2><ul class="list">'
+    +'<li><span>Subjects</span><span>'+esc(subj)+'</span></li>'
+    +'<li><span>Semester</span><span>Year '+esc(p.year)+', semester '+esc(p.sem)+'</span></li>'
+    +'<li><span>Daily study time</span><span>'+esc(p.hours)+' h</span></li>'
+    +'<li><span>Language</span><span>'+esc(p.lang)+'</span></li>'
+    +'<li><span>Plan</span><span>Free</span></li>'
+    +'<li><span>Uploaded study files</span><span>0 of 5 (uploads need the backend)</span></li>'
+    +'</ul></div></div>';
+  h+='<div class="card sec"><h2>Quick actions</h2><div class="row">'
+    +'<a class="btn" href="#sprintmap">Upload materials</a>'
+    +'<button class="btn ghost" id="qa-ai" type="button">Ask AI</button>'
+    +'<a class="btn ghost" href="#sprintmap">Generate study plan</a>'
+    +'<a class="btn ghost" href="#sprintmap">Practice quiz</a>'
+    +'<a class="btn ghost" href="#sprintmap">Open SprintMap™</a></div>'
+    +'<p id="qa-msg" class="note hide" role="status"></p>'
+    +'<p class="note">Uploads take syllabus text in SprintMap™ for now. File upload, the AI tutor and AI quiz generation need the backend, which is not connected in this prototype.</p></div>';
+  if(!total)h+='<p class="note sec">Your dashboard fills in as you use SprintMap™. Nothing here is sample data.</p>';
+  $('v-home').innerHTML=h;
+  $('qa-ai').onclick=function(){var m2=$('qa-msg');m2.textContent='The AI tutor is not connected in this prototype, so it cannot answer questions yet.';m2.classList.remove('hide')};
+}
+
+/* ---------- exam sprint (computed from saved data only) ---------- */
+var CHECK=['Confirm the exam venue, time and what to bring','Revise the formulas and definitions for each unit','Attempt one timed quiz on your weakest topic','Review every topic marked weak or needs practice','Keep the night before light: sleep on time'];
+function fmtH(min){return (Math.round(min/60*10)/10)+' h'}
+function renderExam(){
+  var p=profile();if(!p)return;
+  var m=get('ss-map'),T=today(),list=topicsOf(m),plan=m&&m.plan;
+  var exam=p.exam||(plan&&plan.exam);
+  var h='<div class="hd"><h2>Exam Sprint</h2></div><p class="mute">Revision focus from your saved progress. This page does not predict exam results.</p>';
+  if(!exam){
+    h+='<div class="card sec"><h3>No exam date yet</h3><p class="mute">Add your examination date in Profile, or in the SprintMap™ planner, to see your countdown.</p><div class="row"><a class="btn" href="#profile">Add exam date</a></div></div>';
+    h+=mockCard();
+    $('v-exam').innerHTML=h;return;
+  }
+  var days=diffD(T,exam),hrs=parseFloat(p.hours)||0;
+  var done=list.filter(function(x){return x.t.status==='done'}).length,total=list.length;
+  var weak=list.filter(function(x){return x.t.status==='weak'||x.t.status==='prac'||(rated(x.t)&&eff(x.t)<60)});
+  var notStarted=list.filter(function(x){return x.t.status==='none'});
+  var pendingTasks=plan?plan.tasks.filter(function(t){return !t.done&&t.date>=T}):[];
+  var missed=plan?plan.tasks.filter(function(t){return !t.done&&t.date<T&&t.type!=='personal'}).length:0;
+  var schedMin=pendingTasks.reduce(function(a,t){return a+t.min},0);
+  var availMin=Math.max(0,days)*hrs*60;
+  h+='<div class="stats sec">'
+    +'<div class="card stat"><b>'+(days>=0?days:0)+'</b><span>'+(days>=0?'Days to your exam':'Exam date has passed')+'</span></div>'
+    +'<div class="card stat"><b>'+done+' / '+total+'</b><span>Topics completed</span></div>'
+    +'<div class="card stat"><b>'+(total-done)+'</b><span>Topics remaining</span></div>'
+    +'<div class="card stat"><b>'+weak.length+'</b><span>Weak or needs practice</span></div></div>';
+  if(days<0)h+='<p class="note sec">The exam date is in the past. Update it in Profile to see a countdown.</p>';
+  else{
+    h+='<div class="card sec"><h2>Time check</h2>';
+    if(!plan)h+='<p class="mute">Generate a plan in SprintMap™ to compare the time it needs with the time you have.</p>';
+    else if(schedMin<=availMin)h+='<p>Your scheduled study blocks ('+fmtH(schedMin)+') fit into the '+fmtH(availMin)+' you have before the exam, at '+esc(p.hours)+' hours a day.</p>';
+    else h+='<p><b>Time is short.</b> Your scheduled blocks need '+fmtH(schedMin)+', but you have '+fmtH(availMin)+' before the exam at '+esc(p.hours)+' hours a day. Start with the weak topics below, or add daily hours. More study time helps, but it does not guarantee a result.</p>';
+    if(missed)h+='<p class="note">'+missed+' missed block(s) are not counted above. Replan in SprintMap™ to include them.</p>';
+    h+='</div>';
+  }
+  h+='<div class="split sec"><div class="card"><h2>High-priority revision</h2>'
+    +(weak.length?'<ul class="list">'+weak.map(function(x){var pr=x.prev&&x.prev.status!=='done'?'Start with “'+esc(x.prev.name)+'” first':'';return '<li><span><b>'+esc(x.t.name)+'</b><br><span class="mute">'+esc(x.mod.name)+(pr?' · '+pr:'')+'</span></span><span class="badge">'+esc(x.t.status==='weak'?'Weak area':x.t.status==='prac'?'Needs practice':eff(x.t)+'%')+'</span></li>'}).join('')+'</ul><div class="row"><a class="btn sm" href="#sprintmap">Recover in SprintMap™</a></div>'
+      :'<p class="mute">No weak topics right now. Weak topics appear here when you mark them, or when a quiz score is below 60%.</p>')
+    +'</div>'
+    +'<div class="card"><h2>Still to learn</h2>'
+    +(notStarted.length?'<p class="mute">'+notStarted.length+' topic(s) not started.</p><ul class="list">'+notStarted.slice(0,8).map(function(x){return '<li><span>'+esc(x.t.name)+'</span><span class="mute">'+esc(x.mod.name)+'</span></li>'}).join('')+'</ul>'+(notStarted.length>8?'<p class="mute">and '+(notStarted.length-8)+' more in SprintMap™.</p>':'')
+      :'<p class="mute">Every topic has been started.</p>')
+    +'</div></div>';
+  h+='<div class="split sec"><div class="card"><h2>Quick quizzes</h2><p class="mute">Quizzes use the questions you paste in SprintMap™. Take one on a weak topic, then check the result.</p><div class="row"><a class="btn" href="#sprintmap">Open quizzes in SprintMap™</a></div></div>'
+    +'<div class="card"><h2>Formulas and definitions</h2>'+formulaList()+'</div></div>';
+  h+=mockCard();
+  var saved=get('ss-exam-check')||[];
+  h+='<div class="card sec"><h2>Last-day checklist</h2><p class="mute">A general checklist. Ticks are saved in this browser.</p><div>'
+    +CHECK.map(function(c,i){return '<label class="chk"><input type="checkbox" data-ck="'+i+'"'+(saved[i]?' checked':'')+'><span>'+esc(c)+'</span></label>'}).join('')
+    +'</div></div>';
+  $('v-exam').innerHTML=h;
+}
+$('v-exam').addEventListener('change',function(e){
+  var i=e.target.getAttribute&&e.target.getAttribute('data-ck');if(i===null||i===undefined)return;
+  var s=get('ss-exam-check')||[];s[i]=e.target.checked;put('ss-exam-check',s);
+});
+
+/* ---------- analytics (computed from saved records only) ---------- */
+var AN_RANGE='all';
+var STN={none:'Not started',prog:'In progress',done:'Completed',prac:'Needs practice',weak:'Weak area',rev:'Ready for revision'};
+function addDays(s,n){var d=new Date(s+'T00:00:00');d.setDate(d.getDate()+n);return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())}
+function lineSVG(pts){
+  if(pts.length<2)return '<p class="mute">Take at least two quizzes to see a trend.</p>';
+  var W=600,H=220,pl=36,pr=12,pt=12,pb=28;
+  var xs=function(i){return pl+(W-pl-pr)*i/(pts.length-1)};
+  var ys=function(v){return pt+(H-pt-pb)*(1-v/100)};
+  var grid=[0,25,50,75,100].map(function(g){return '<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+ys(g)+'" y2="'+ys(g)+'" style="stroke:var(--line)"/><text x="'+(pl-6)+'" y="'+(ys(g)+4)+'" text-anchor="end" style="fill:var(--mute)" font-size="11">'+g+'</text>'}).join('');
+  var line=pts.map(function(q,i){return xs(i)+','+ys(q.pct)}).join(' ');
+  var dots=pts.map(function(q,i){return '<circle cx="'+xs(i)+'" cy="'+ys(q.pct)+'" r="4" style="fill:var(--accent)"><title>'+esc(q.d)+': '+Math.round(q.pct)+'%</title></circle>'}).join('');
+  return '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Quiz scores over time" style="width:100%;height:auto;display:block">'+grid
+    +'<polyline points="'+line+'" fill="none" style="stroke:var(--accent)" stroke-width="2.5"/>'+dots
+    +'<text x="'+pl+'" y="'+(H-6)+'" style="fill:var(--mute)" font-size="11">'+esc(pts[0].d)+'</text>'
+    +'<text x="'+(W-pr)+'" y="'+(H-6)+'" text-anchor="end" style="fill:var(--mute)" font-size="11">'+esc(pts[pts.length-1].d)+'</text></svg>';
+}
+function barRow(label,value,pct,note){
+  return '<div class="hbar"><div class="hbar-top"><span>'+esc(label)+'</span><span class="mute">'+esc(value)+'</span></div><div class="track" aria-hidden="true"><div class="fill" style="width:'+Math.max(0,Math.min(100,pct))+'%"></div></div>'+(note?'<p class="mute" style="margin:4px 0 0;font-size:.85rem">'+esc(note)+'</p>':'')+'</div>';
+}
+function renderAnalytics(){
+  var p=profile();if(!p)return;
+  var m=get('ss-map'),T=today(),list=topicsOf(m),plan=m&&m.plan,hist=(m&&m.quiz&&m.quiz.hist)||[];
+  var cut=AN_RANGE==='all'?'0000':addDays(T,AN_RANGE==='7'?-6:-29);
+  var H=hist.filter(function(h){return h.d>=cut});
+  var subj=(m&&m.subject)||p.subjects||'No subject yet';
+  var total=list.length,done=list.filter(function(x){return x.t.status==='done'}).length;
+  var pts=H.map(function(h){return{d:h.d,pct:h.c/h.total*100}});
+  var avg=pts.length?Math.round(pts.reduce(function(a,q){return a+q.pct},0)/pts.length):null;
+  var latest=pts.length?Math.round(pts[pts.length-1].pct):null;
+  var best=pts.length?Math.round(Math.max.apply(null,pts.map(function(q){return q.pct}))):null;
+  var tasks=plan?plan.tasks.filter(function(t){return t.type!=='personal'}):[];
+  var due=tasks.filter(function(t){return t.date<=T}),doneDue=due.filter(function(t){return t.done}).length;
+  var rated=list.filter(function(x){return rated_(x.t)});
+  var weakest=rated.slice().sort(function(a,b){return eff(a.t)-eff(b.t)}).slice(0,5);
+  // improvement after revision: first vs latest quiz score on each topic with 2+ results in range
+  var imp=[];
+  list.forEach(function(x){
+    var series=H.filter(function(h){return h.per&&h.per[x.t.id]}).map(function(h){var q=h.per[x.t.id];return q[0]/q[1]*100});
+    if(series.length>=2)imp.push({name:x.t.name,delta:Math.round(series[series.length-1]-series[0])});
+  });
+  var counts={};Object.keys(STN).forEach(function(k){counts[k]=0});list.forEach(function(x){counts[x.t.status]++});
+
+  var h='<div class="hd"><h2>Analytics</h2><span class="badge">'+esc(subj)+'</span></div>'
+    +'<p class="mute">Built from your saved quizzes, topic statuses and plan. Ratings you gave yourself are labelled as estimates.</p>'
+    +'<div class="seg" role="group" aria-label="Date range">'
+    +[['all','All time'],['30','Last 30 days'],['7','Last 7 days']].map(function(r){return '<button type="button" data-range="'+r[0]+'" aria-pressed="'+(AN_RANGE===r[0])+'">'+r[1]+'</button>'}).join('')
+    +'</div>';
+  h+='<div class="stats sec">'
+    +'<div class="card stat"><b>'+(avg===null?'–':avg+'%')+'</b><span>'+(avg===null?'No quizzes in this range':'Average quiz score')+'</span></div>'
+    +'<div class="card stat"><b>'+pts.length+'</b><span>Quizzes taken</span></div>'
+    +'<div class="card stat"><b>'+done+' / '+total+'</b><span>Topics completed</span></div>'
+    +'<div class="card stat"><b>'+(due.length?Math.round(doneDue/due.length*100)+'%':'–')+'</b><span>'+(due.length?'Plan blocks completed ('+doneDue+' of '+due.length+' due)':'No plan blocks due yet')+'</span></div></div>';
+  h+='<div class="split sec"><div class="card"><h2>Quiz scores over time</h2>'+lineSVG(pts)
+    +(pts.length?'<p class="mute" style="margin-top:8px">Latest '+latest+'% · best '+best+'% · '+pts.length+' quiz(zes)</p>':'')+'</div>'
+    +'<div class="card"><h2>Subject progress</h2>'
+    +(total?barRow('Topics completed',done+' of '+total,done/total*100)+barRow('Topics started',(total-counts.none)+' of '+total,(total-counts.none)/total*100):'<p class="mute">No topics yet. Build a SprintMap™ to see subject progress.</p>')
+    +(total?'<h3 class="sec" style="font-size:1rem">Topic statuses</h3>'+['done','prog','rev','prac','weak','none'].map(function(k){return barRow(STN[k],counts[k]+' topic(s)',counts[k]/total*100)}).join(''):'')
+    +'</div></div>';
+  h+='<div class="split sec"><div class="card"><h2>Topic mastery</h2>'
+    +(rated.length?rated.map(function(x){var e=eff(x.t);return barRow(x.t.name,e+'%',e,'Estimate from your self-rating and quiz results')}).join(''):'<p class="mute">No topics rated yet. Rate a topic in SprintMap™, or take a quiz, to see mastery.</p>')
+    +'</div>'
+    +'<div class="card"><h2>Weakest topics</h2>'
+    +(weakest.length?'<ul class="list">'+weakest.map(function(x){return '<li><span>'+esc(x.t.name)+'</span><span class="badge">'+eff(x.t)+'%</span></li>'}).join('')+'</ul>':'<p class="mute">No rated topics yet.</p>')
+    +'<h3 class="sec" style="font-size:1rem">Improvement after revision</h3>'
+    +(imp.length?'<ul class="list">'+imp.map(function(i){return '<li><span>'+esc(i.name)+'</span><span>'+(i.delta>0?'+':'')+i.delta+' points</span></li>'}).join('')+'</ul>':'<p class="mute">Needs at least two quizzes on the same topic in this range.</p>')
+    +'</div></div>';
+  h+='<div class="split sec"><div class="card"><h2>Recent quiz history</h2>'
+    +(H.length?'<table class="tbl"><thead><tr><th>Date</th><th>Quiz</th><th>Correct</th><th>Score</th></tr></thead><tbody>'
+      +H.slice(-10).reverse().map(function(x){return '<tr><td>'+esc(x.d)+'</td><td>'+(x.scope==='all'?'Mixed':'Topic')+'</td><td>'+x.c+' / '+x.total+'</td><td>'+Math.round(x.c/x.total*100)+'%</td></tr>'}).join('')+'</tbody></table>'
+      :'<p class="mute">No quizzes in this range yet.</p>')
+    +'</div>'
+    +'<div class="card"><h2>Report and notes</h2>'
+    +'<p class="mute">Time spent is not tracked yet, so it is not shown. A downloadable report needs the backend; for now you can copy a text summary.</p>'
+    +'<div class="row"><button class="btn" id="an-copy" type="button">Copy text summary</button></div>'
+    +'<p id="an-msg" class="note hide" role="status"></p></div></div>';
+  $('v-analytics').innerHTML=h;
+  $('an-copy').onclick=function(){
+    var lines=['SkillSprinta LearnTech progress: '+subj,'Topics completed: '+done+' of '+total,'Quizzes in range: '+pts.length+(avg===null?'':', average score '+avg+'%'),'Weak or needs practice: '+(counts.weak+counts.prac)];
+    var text=lines.join('\n'),msg=$('an-msg');
+    var fallback=function(){msg.textContent='Copy is not available here. Select the text below and copy it.';msg.classList.remove('hide');var ta=document.createElement('textarea');ta.value=text;msg.after(ta);ta.select()};
+    try{navigator.clipboard.writeText(text).then(function(){msg.textContent='Summary copied.';msg.classList.remove('hide')},fallback)}catch(e){fallback()}
+  };
+}
+function rated_(t){return t.quiz!=null||(t.score||0)>0}
+$('v-analytics').addEventListener('click',function(e){var b=e.target.closest('[data-range]');if(!b)return;AN_RANGE=b.getAttribute('data-range');renderAnalytics()});
+
+/* ---------- skill passport (XP derived from saved state, so repeat clicks cannot add XP) ---------- */
+/* XP values and level thresholds are placeholders for review. Change them here only. */
+var XP_RULES={topicDone:20,quizTaken:5,quizCorrect:2,mastery:10,planBlock:2};
+var MASTERY_MIN=70;
+var XP_LEVELS=[{name:'Learner',xp:300},{name:'Advanced',xp:600},{name:'Expert',xp:850},{name:'Master',xp:1200}];
+function isMastered(t){return t.status==='done'&&t.quiz!=null&&t.quiz>=MASTERY_MIN}
+function computeXP(m){
+  var list=topicsOf(m),hist=(m&&m.quiz&&m.quiz.hist)||[],plan=m&&m.plan;
+  var c={topics:0,quizzes:0,correct:0,mastery:0,blocks:0};
+  list.forEach(function(x){if(x.t.status==='done')c.topics++;if(isMastered(x.t))c.mastery++});
+  hist.forEach(function(h){c.quizzes++;c.correct+=h.c});
+  if(plan)c.blocks=plan.tasks.filter(function(t){return t.done&&t.type!=='personal'}).length;
+  var xp=c.topics*XP_RULES.topicDone+c.quizzes*XP_RULES.quizTaken+c.correct*XP_RULES.quizCorrect+c.mastery*XP_RULES.mastery+c.blocks*XP_RULES.planBlock;
+  return{xp:xp,c:c};
+}
+function renderPassport(){
+  var p=profile();if(!p)return;
+  var m=get('ss-map'),list=topicsOf(m),hist=(m&&m.quiz&&m.quiz.hist)||[],plan=m&&m.plan;
+  var r=computeXP(m),xp=r.xp,c=r.c;
+  var cur=null,next=null;
+  XP_LEVELS.forEach(function(l){if(xp>=l.xp)cur=l;else if(!next)next=l});
+  var top=XP_LEVELS[XP_LEVELS.length-1];
+  var base=cur?cur.xp:0,goal=next?next.xp:top.xp;
+  var pct=next?Math.round((xp-base)/(goal-base)*100):100;
+  var mastered=list.filter(function(x){return isMastered(x.t)});
+  var practiced=list.filter(function(x){return x.t.quiz!=null});
+  var avg=hist.length?Math.round(hist.reduce(function(a,h){return a+h.c/h.total*100},0)/hist.length):null;
+  var subj=(m&&m.subject)||p.subjects||'';
+  var ms=[
+    ['Syllabus mapped in SprintMap™',!!(m&&m.modules&&m.modules.length)],
+    ['First study plan generated',!!(plan&&plan.tasks&&plan.tasks.length)],
+    ['First quiz taken',hist.length>0],
+    ['First topic completed',c.topics>0],
+    ['First topic mastered (completed with a quiz score of '+MASTERY_MIN+'% or more)',mastered.length>0]
+  ];
+  var h='<div class="hd"><span class="av" style="background:linear-gradient(135deg,'+(AV[p.avatar||0]||AV[0])[0]+','+(AV[p.avatar||0]||AV[0])[1]+')">'+esc((p.name||'?').charAt(0).toUpperCase())+'</span><div><p class="eyebrow" style="margin:0">Skill Passport</p><h2 style="margin:0">'+esc(p.name)+'</h2><p class="mute" style="margin:0">'+esc(p.college||'College not added')+(p.branch?' · '+esc(p.branch):'')+'</p></div></div>';
+  h+='<div class="card sec"><div class="hd" style="justify-content:space-between"><div><p class="eyebrow" style="margin:0">Current level</p><h2 style="margin:0">'+(cur?esc(cur.name):'Not yet a Learner')+'</h2></div><div style="text-align:right"><b style="font:800 1.8rem \'Bricolage Grotesque\',sans-serif">'+xp+' XP</b><p class="mute" style="margin:0">'+(next?(goal-xp)+' XP to '+esc(next.name):'Highest level reached')+'</p></div></div>'
+    +'<div class="track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+pct+'" aria-label="Progress to next level" style="margin-top:12px"><div class="fill" style="width:'+pct+'%"></div></div>'
+    +'<div class="lvl sec">'+XP_LEVELS.map(function(l){var st=xp>=l.xp?'reached':(next&&next.name===l.name?'next':'');return '<div class="'+st+'"><b>'+esc(l.name)+'</b><p class="mute" style="margin:0">'+l.xp+' XP'+(st==='reached'?' · reached':'')+'</p></div>'}).join('')+'</div>'
+    +'<p class="note">Level thresholds and XP values are placeholders for review, not final product values.</p></div>';
+  h+='<div class="stats sec">'
+    +'<div class="card stat"><b>'+mastered.length+'</b><span>Topics mastered</span></div>'
+    +'<div class="card stat"><b>'+hist.length+'</b><span>Quizzes taken</span></div>'
+    +'<div class="card stat"><b>'+(avg===null?'–':avg+'%')+'</b><span>Average quiz score</span></div>'
+    +'<div class="card stat"><b>'+c.topics+'</b><span>Topics completed</span></div></div>';
+  h+='<div class="split sec"><div class="card"><h2>Subjects studied</h2>'+(subj?'<ul class="list"><li><span>'+esc(subj)+'</span><span class="mute">'+list.length+' topics</span></li></ul>':'<p class="mute">No subject yet. Build a SprintMap™ to add one.</p>')
+    +'<h3 class="sec" style="font-size:1rem">Topics mastered</h3>'+(mastered.length?'<ul class="list">'+mastered.map(function(x){return '<li><span>'+esc(x.t.name)+'</span><span class="badge">'+x.t.quiz+'%</span></li>'}).join('')+'</ul>':'<p class="mute">None yet. A topic counts as mastered when it is completed and its quiz score is '+MASTERY_MIN+'% or more.</p>')
+    +'</div>'
+    +'<div class="card"><h2>Skills practiced</h2>'+(practiced.length?'<ul class="list">'+practiced.map(function(x){return '<li><span>'+esc(x.t.name)+'</span><span class="mute">'+eff(x.t)+'% estimate</span></li>'}).join('')+'</ul>':'<p class="mute">No quiz results yet. Practiced topics appear here after a quiz.</p>')+'</div></div>';
+  h+='<div class="split sec"><div class="card"><h2>Milestones</h2>'+ms.map(function(x){return '<div class="ms'+(x[1]?' yes':'')+'"><i aria-hidden="true"></i><span>'+esc(x[0])+(x[1]?'':' <span class="mute">· not yet</span>')+'</span></div>'}).join('')+'</div>'
+    +'<div class="card"><h2>How XP is earned</h2><table class="tbl"><thead><tr><th>Activity</th><th>Count</th><th>XP each</th><th>XP</th></tr></thead><tbody>'
+    +[['Topic completed',c.topics,XP_RULES.topicDone],['Quiz taken',c.quizzes,XP_RULES.quizTaken],['Correct answer',c.correct,XP_RULES.quizCorrect],['Topic mastered',c.mastery,XP_RULES.mastery],['Plan block completed',c.blocks,XP_RULES.planBlock]].map(function(x){return '<tr><td>'+x[0]+'</td><td>'+x[1]+'</td><td>'+x[2]+'</td><td>'+(x[1]*x[2])+'</td></tr>'}).join('')
+    +'</tbody></table><p class="mute" style="font-size:.9rem">XP is calculated from your current progress. Undoing an action removes its XP, so repeat clicks never add XP twice.</p></div></div>';
+  h+='<div class="card sec"><h2>Share your passport</h2><p class="mute">Certificates and verified credentials need the backend and are not available yet. For now you can copy a text summary of this passport.</p><div class="row"><button class="btn" id="sp-copy" type="button">Copy passport summary</button></div><p id="sp-msg" class="note hide" role="status"></p></div>';
+  $('v-passport').innerHTML=h;
+  $('sp-copy').onclick=function(){
+    var text=['SkillSprinta LearnTech Skill Passport: '+p.name,'Level: '+(cur?cur.name:'Not yet a Learner')+' ('+xp+' XP)','Topics mastered: '+mastered.length,'Quizzes taken: '+hist.length+(avg===null?'':', average score '+avg+'%'),'Topics completed: '+c.topics].join('\n');
+    var msg=$('sp-msg');
+    var fb=function(){msg.textContent='Copy is not available here. Select the text below and copy it.';msg.classList.remove('hide');var ta=document.createElement('textarea');ta.value=text;msg.after(ta);ta.select()};
+    try{navigator.clipboard.writeText(text).then(function(){msg.textContent='Passport summary copied.';msg.classList.remove('hide')},fb)}catch(e){fb()}
+  };
+}
+
+/* ---------- notifications (derived from saved progress; read state and settings are saved) ---------- */
+var NTYPES=[['syllabus','Syllabus analysis'],['plan','Study plan'],['revision','Recommended revision'],['quiz','Quiz results'],['exam','Upcoming exam']];
+function notifPrefs(){return Object.assign({syllabus:true,plan:true,revision:true,quiz:true,exam:true},get('ss-notify-prefs')||{})}
+function notifRead(){return get('ss-notify-read')||{}}
+function buildNotifications(){
+  var p=profile();if(!p)return[];
+  var m=get('ss-map'),T=today(),list=topicsOf(m),plan=m&&m.plan,hist=(m&&m.quiz&&m.quiz.hist)||[];
+  var out=[];
+  if(m&&m.modules&&m.modules.length&&m.made)out.push({id:'syllabus-'+m.made+'-'+list.length,type:'syllabus',date:m.made,title:'Syllabus analysed',text:m.modules.length+' module(s) and '+list.length+' topic(s) are ready. Review them in SprintMap™.',href:'#sprintmap'});
+  if(plan&&plan.made&&plan.tasks&&plan.tasks.length){
+    var last=plan.tasks.reduce(function(a,t){return t.date>a?t.date:a},'');
+    out.push({id:'plan-'+plan.made+'-'+plan.tasks.length,type:'plan',date:plan.made,title:'Study plan ready',text:plan.tasks.length+' block(s), finishing on '+fmtD(last)+'.',href:'#sprintmap'});
+  }
+  var weak=list.filter(function(x){return x.t.status==='weak'||x.t.status==='prac'||(rated(x.t)&&eff(x.t)<60)});
+  if(weak.length)out.push({id:'revision-'+weak.map(function(x){return x.t.name}).join('|'),type:'revision',date:T,title:'Revision recommended',text:weak.length+' topic(s) need revision, starting with “'+weak[0].t.name+'”.',href:'#exam'});
+  hist.forEach(function(h,i){out.push({id:'quiz-'+h.d+'-'+i+'-'+h.c+'-'+h.total,type:'quiz',date:h.d,title:'Quiz result',text:(h.scope==='all'?'Mixed quiz':'Topic quiz')+': '+h.c+' of '+h.total+' correct ('+Math.round(h.c/h.total*100)+'%).',href:'#analytics'})});
+  var exam=p.exam||(plan&&plan.exam);
+  if(exam){var days=diffD(T,exam);if(days>=0&&days<=14)out.push({id:'exam-'+exam,type:'exam',date:T,title:'Exam coming up',text:days===0?'Your exam is today.':'Your exam is in '+days+' day(s).',href:'#exam'})}
+  out.sort(function(a,b){return a.date<b.date?1:a.date>b.date?-1:0});
+  return out;
+}
+function updateBadge(){
+  var a=$('nav-notif');if(!a)return;
+  var n=0;
+  if(profile()){var rd=notifRead(),pr=notifPrefs();n=buildNotifications().filter(function(x){return pr[x.type]&&!rd[x.id]}).length}
+  a.textContent='Notifications'+(n?' ('+n+')':'');
+}
+function renderNotifications(){
+  if(!profile())return;
+  var prefs=notifPrefs(),rd=notifRead(),all=buildNotifications(),items=all.filter(function(x){return prefs[x.type]});
+  var unread=items.filter(function(x){return !rd[x.id]}).length;
+  var h='<div class="hd" style="justify-content:space-between"><h2>Notifications</h2><button class="btn ghost sm" id="n-all" type="button"'+(unread?'':' disabled')+'>Mark all as read</button></div>'
+    +'<p class="mute">'+(unread?unread+' unread':'Nothing unread')+'. These come from your saved progress. Nothing is sent by email, SMS or push.</p>';
+  h+='<div class="card sec">'+(items.length?'<ul class="list">'+items.map(function(x){var isR=!!rd[x.id];return '<li style="align-items:flex-start"><div style="flex:1 1 220px;min-width:0"><div class="hd" style="gap:8px"><b>'+esc(x.title)+'</b>'+(isR?'':'<span class="badge">New</span>')+'</div><p style="margin:4px 0">'+esc(x.text)+'</p><p class="mute" style="margin:0;font-size:.85rem">'+esc(fmtD(x.date))+'</p></div><div class="row" style="margin:0"><a class="btn ghost sm" href="'+x.href+'">Open</a>'+(isR?'':'<button class="btn ghost sm" type="button" data-read="'+esc(x.id)+'">Mark read</button>')+'</div></li>'}).join('')+'</ul>'
+    :'<p class="mute">No notifications yet. They appear as you build a syllabus, make a plan, take quizzes, and get close to your exam.</p>')+'</div>';
+  h+='<div class="card sec"><h2>Processing</h2><p class="mute">No processing failures are recorded, because file upload is not connected in this prototype.</p></div>';
+  h+='<div class="card sec"><h2>Notification settings</h2><p class="mute">Choose which types appear here.</p>'+NTYPES.map(function(t){return '<label class="chk"><input type="checkbox" data-pref="'+t[0]+'"'+(prefs[t[0]]?' checked':'')+'><span>'+esc(t[1])+'</span></label>'}).join('')+'</div>';
+  $('v-notifications').innerHTML=h;
+  updateBadge();
+}
+$('v-notifications').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b||b.disabled)return;
+  var rd=notifRead();
+  if(b.id==='n-all'){buildNotifications().forEach(function(x){rd[x.id]=true});put('ss-notify-read',rd);renderNotifications();return}
+  if(b.hasAttribute('data-read')){rd[b.getAttribute('data-read')]=true;put('ss-notify-read',rd);renderNotifications()}
+});
+$('v-notifications').addEventListener('change',function(e){
+  var k=e.target.getAttribute&&e.target.getAttribute('data-pref');if(!k)return;
+  var pr=notifPrefs();pr[k]=e.target.checked;put('ss-notify-prefs',pr);renderNotifications();
+});
+
+/* ---------- upload: text extraction in the browser (PDF, PPTX, DOCX, TXT) ---------- */
+var FILE_OBJ={},upMsg='';
+var FREE_LIMIT=5;
+function inflateBytes(bytes,fmt){
+  var ds=new DecompressionStream(fmt);
+  return new Response(new Blob([bytes]).stream().pipeThrough(ds)).arrayBuffer().then(function(b){return new Uint8Array(b)});
+}
+function latin(bytes){return new TextDecoder('latin1').decode(bytes)}
+function unesc(str){return str.replace(/\\([nrtbf()\\]|[0-7]{1,3})/g,function(_,c){
+  if(/^[0-7]/.test(c))return String.fromCharCode(parseInt(c,8));
+  return{n:'\n',r:'',t:' ',b:'',f:'','(':'(',')':')','\\':'\\'}[c];
+})}
+function textFromContent(c){
+  var lines=[],cur='',re=/\((?:\\[\s\S]|[^\\()])*\)|\bT\*|\bTD\b|\bTd\b|\bTm\b|\bET\b/g,m;
+  while((m=re.exec(c))){
+    var t=m[0];
+    if(t[0]==='('){cur+=unesc(t.slice(1,-1))}
+    else if(cur.trim()){lines.push(cur.trim());cur=''}
+  }
+  if(cur.trim())lines.push(cur.trim());
+  return lines.join('\n');
+}
+function extractPDF(buf){
+  var u8=new Uint8Array(buf),s=latin(u8);
+  if(s.slice(0,5)!=='%PDF-')return Promise.reject(new Error('This file does not look like a PDF.'));
+  var pages=(s.match(/\/Type\s*\/Page[^s]/g)||[]).length;
+  var re=/<<((?:(?!>>)[\s\S])*?)>>\s*stream\r?\n/g,m,jobs=[];
+  while((m=re.exec(s))){
+    var dict=m[1],start=re.lastIndex,end=s.indexOf('endstream',start);
+    if(end<0)break;
+    re.lastIndex=end;
+    if(/\/Subtype\s*\/Image|\/Type\s*\/(XRef|ObjStm|Font)/.test(dict))continue;
+    var e2=end;while(e2>start&&(u8[e2-1]===10||u8[e2-1]===13))e2--;
+    jobs.push({data:u8.subarray(start,e2),flate:/\/FlateDecode/.test(dict)});
+  }
+  return Promise.all(jobs.map(function(j){
+    if(!j.flate)return Promise.resolve(latin(j.data));
+    return inflateBytes(j.data,'deflate').then(function(d){return latin(d)},function(){return ''});
+  })).then(function(bodies){
+    var parts=bodies.filter(function(b){return /\bBT\b/.test(b)}).map(textFromContent);
+    var text=parts.join('\n').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
+    return{text:text,pages:pages};
+  });
+}
+function readZip(buf){
+  var u8=new Uint8Array(buf),dv=new DataView(buf),eocd=-1;
+  for(var i=u8.length-22;i>=Math.max(0,u8.length-65557);i--){if(dv.getUint32(i,true)===0x06054b50){eocd=i;break}}
+  if(eocd<0)return Promise.reject(new Error('This is not a valid Office file.'));
+  var count=dv.getUint16(eocd+10,true),p=dv.getUint32(eocd+16,true),jobs=[];
+  for(var k=0;k<count;k++){
+    if(dv.getUint32(p,true)!==0x02014b50)break;
+    var method=dv.getUint16(p+10,true),csize=dv.getUint32(p+20,true),nlen=dv.getUint16(p+28,true),elen=dv.getUint16(p+30,true),clen=dv.getUint16(p+32,true),lho=dv.getUint32(p+42,true);
+    var name=new TextDecoder().decode(u8.subarray(p+46,p+46+nlen));
+    p+=46+nlen+elen+clen;
+    var dstart=lho+30+dv.getUint16(lho+26,true)+dv.getUint16(lho+28,true);
+    jobs.push({name:name,raw:u8.subarray(dstart,dstart+csize),method:method});
+  }
+  var files={};
+  return Promise.all(jobs.map(function(j){
+    if(j.method===0){files[j.name]=j.raw;return null}
+    if(j.method===8)return inflateBytes(j.raw,'deflate-raw').then(function(d){files[j.name]=d},function(){});
+    return null;
+  })).then(function(){return files});
+}
+function xmlParas(bytes,pTag,tTag){
+  var doc=new DOMParser().parseFromString(new TextDecoder().decode(bytes),'application/xml'),out=[];
+  Array.prototype.forEach.call(doc.getElementsByTagName(pTag),function(p){
+    var t=Array.prototype.map.call(p.getElementsByTagName(tTag),function(x){return x.textContent}).join('');
+    if(t.trim())out.push(t.trim());
+  });
+  return out;
+}
+function extractOffice(buf,ext){
+  return readZip(buf).then(function(files){
+    if(ext==='pptx'){
+      var names=Object.keys(files).filter(function(n){return /^ppt\/slides\/slide\d+\.xml$/.test(n)}).sort(function(a,b){return parseInt(a.match(/\d+/)[0],10)-parseInt(b.match(/\d+/)[0],10)});
+      if(!names.length)throw new Error('No slides were found in this file.');
+      var text=names.map(function(n,i){return 'Slide '+(i+1)+'\n'+xmlParas(files[n],'a:p','a:t').join('\n')}).join('\n\n');
+      return{text:text,pages:names.length};
+    }
+    if(!files['word/document.xml'])throw new Error('This is not a valid DOCX file.');
+    return{text:xmlParas(files['word/document.xml'],'w:p','w:t').join('\n'),pages:null};
+  });
+}
+function extractFile(f){
+  var ext=f.name.split('.').pop().toLowerCase();
+  return f.arrayBuffer().then(function(buf){
+    if(ext==='txt')return{text:new TextDecoder().decode(buf),pages:null};
+    if(ext==='pdf')return extractPDF(buf);
+    return extractOffice(buf,ext);
+  });
+}
+function analyseText(text){
+  var heads=text.split('\n').filter(function(l){return /^\s*(module|unit|chapter)\b/i.test(l)}).map(function(l){return l.trim()}).slice(0,12);
+  var words=(text.match(/\S+/g)||[]).length;
+  return{headings:heads,words:words,low:words<8};
+}
+function getFiles(){return get('ss-files')||[]}
+function saveFiles(list){return put('ss-files',list)}
+function updateRec(id,patch){var l=getFiles();l.forEach(function(r){if(r.id===id)Object.assign(r,patch)});if(!saveFiles(l))upMsg='Browser storage is full. Delete a file to free space.';renderUpload()}
+function processFile(id){
+  var f=FILE_OBJ[id];
+  if(!f){updateRec(id,{status:'failed',error:'The file is no longer in memory. Upload it again to retry.'});return Promise.resolve()}
+  updateRec(id,{status:'processing',error:null});
+  return extractFile(f).then(function(r){
+    var a=analyseText(r.text);
+    if(a.low&&/\.pdf$/i.test(f.name)){
+      if(!syncUser||!syncReady){upMsg=f.name+': no readable text. Sign in on the Sync page to read scanned PDFs with OCR.';renderUpload()}
+      else{
+        upMsg='Reading '+f.name+' with OCR…';
+        return ocrPdf(f).then(function(o){
+          if(o&&o.text){var b=analyseText(o.text);updateRec(id,{status:'done',text:o.text.slice(0,150000),pages:o.pages,words:b.words,headings:b.headings,low:b.low,error:null,ocr:true});return}
+          updateRec(id,{status:'done',text:r.text.slice(0,150000),pages:r.pages,words:a.words,headings:a.headings,low:a.low,error:null});
+        });
+      }
+    }
+    updateRec(id,{status:'done',text:r.text.slice(0,150000),pages:r.pages,words:a.words,headings:a.headings,low:a.low,error:null});
+  },function(e){updateRec(id,{status:'failed',error:(e&&e.message)||'This file could not be read.'})});
+}
+var queue=Promise.resolve();
+function addFiles(list){
+  var files=getFiles(),used=get('ss-upload-used')||0,msgs=[],added=[];
+  Array.prototype.forEach.call(list,function(f){
+    var ext=(f.name.split('.').pop()||'').toLowerCase();
+    if(['pdf','pptx','docx','txt'].indexOf(ext)<0){msgs.push(f.name+': not supported here. Use PDF, PPTX, DOCX or TXT. Old .doc files and images need the backend.');return}
+    if(f.size>20*1024*1024){msgs.push(f.name+': larger than 20 MB.');return}
+    var counts=ext==='pdf'||ext==='pptx';
+    if(counts&&used>=FREE_LIMIT){msgs.push(f.name+': the free plan allows '+FREE_LIMIT+' PDF or PPT files. Subscribe to add more.');return}
+    if(counts)used++;
+    var id='f'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+    FILE_OBJ[id]=f;
+    added.push({id:id,name:f.name,ext:ext,size:f.size,status:'processing',added:today(),counts:counts,text:'',headings:[],words:0,pages:null,low:false,error:null});
+  });
+  if(added.length){
+    put('ss-upload-used',used);
+    if(!saveFiles(added.concat(files))){msgs.push('Browser storage is full. Delete a file to free space.')}
+    added.forEach(function(r){queue=queue.then(function(){return processFile(r.id)})});
+  }
+  upMsg=msgs.join(' ');
+  renderUpload();
+}
+var addFilesLocal=addFiles;
+var COUNTED_EXT=['pdf','pptx'];
+addFiles=function(list){
+  if(!syncUser||!syncReady)return addFilesLocal(list);
+  var arr=Array.prototype.slice.call(list),used=get('ss-upload-used')||0,state=[],msgs=[];
+  var limitMsg=function(n){return n+': the free plan allows '+FREE_LIMIT+' PDF or PPT files. Subscribe to add more.'};
+  arr.forEach(function(f){
+    var ext=(f.name.split('.').pop()||'').toLowerCase();
+    if(COUNTED_EXT.indexOf(ext)<0||f.size>20*1024*1024){state.push('pass');return}
+    if(used>=FREE_LIMIT){state.push('no');msgs.push(limitMsg(f.name));return}
+    used++;state.push('check');
+  });
+  upMsg='Checking your upload limit…';renderUpload();
+  var chain=Promise.resolve(),blocked=false;
+  arr.forEach(function(f,i){
+    if(state[i]!=='check')return;
+    chain=chain.then(function(){
+      if(blocked){state[i]='no';msgs.push(limitMsg(f.name));return}
+      var ext=(f.name.split('.').pop()||'').toLowerCase();
+      return apiCall('POST','/api/uploads',{name:f.name,ext:ext,size:f.size,text:''}).then(function(r){
+        if(r&&r.status===201){state[i]='ok';return}
+        state[i]='no';blocked=true;
+        if(!r)msgs.push('Could not reach the server to check your upload limit. Try again.');
+        else msgs.push(f.name+': '+(r.data&&r.data.error?r.data.error:limitMsg(f.name).replace(f.name+': ','')));
+      });
+    });
+  });
+  return chain.then(function(){
+    addFilesLocal(arr.filter(function(f,i){return state[i]==='pass'||state[i]==='ok'}));
+    if(msgs.length)upMsg=(msgs.join(' ')+' '+upMsg).trim();
+    renderUpload();
+  });
+};
+function fmtSize(n){return n<1024*1024?Math.max(1,Math.round(n/1024))+' KB':(Math.round(n/1024/1024*10)/10)+' MB'}
+function renderUpload(){
+  if(!profile())return;
+  var files=getFiles(),used=get('ss-upload-used')||0;
+  var h='<div class="hd" style="justify-content:space-between"><h2>Upload study materials</h2><span class="badge">Free plan</span></div>'
+    +'<div class="card sec"><h3>Limits</h3><p><b>PDF and PPT files used: '+used+' of '+FREE_LIMIT+'.</b> Deleting a file does not return its slot.</p>'
+    +'<p class="mute" style="margin:0">The limit is checked in this browser for the prototype. It is enforced on the server once the backend is live, so clearing browser data would not bypass it then.</p></div>'
+    +'<div class="card sec"><h3>Supported formats</h3><p class="mute" style="margin:0">PDF, PPTX, DOCX and TXT are read in your browser. Old .doc files and images (OCR) need the backend. Files up to 20 MB. Text-based files work best; scanned PDFs have no readable text here.</p></div>'
+    +'<div class="drop sec" id="drop"><label for="fup" style="display:block;margin:0 0 10px;color:var(--ink);font-weight:600">Choose files or drop them here</label><input id="fup" type="file" multiple accept=".pdf,.pptx,.docx,.txt"></div>'
+    +'<p id="up-msg" class="note'+(upMsg?'':' hide')+'" role="status">'+esc(upMsg)+'</p>';
+  if(!files.length)h+='<p class="mute sec">No files yet. Upload a syllabus or study material to analyse it.</p>';
+  files.forEach(function(r){
+    var st=r.status==='processing'?'Reading the file…':r.status==='failed'?'Failed':(r.low?'No readable text':'Read');
+    h+='<div class="card sec"><div class="hd" style="justify-content:space-between;align-items:flex-start"><div style="min-width:0;flex:1 1 200px"><b style="overflow-wrap:anywhere">'+esc(r.name)+'</b><p class="mute" style="margin:0;font-size:.9rem">'+esc(r.ext.toUpperCase())+' · '+fmtSize(r.size)+' · added '+esc(fmtD(r.added))+(r.counts?' · counts toward the free limit':'')+'</p></div><span class="badge">'+esc(st)+'</span></div>';
+    if(r.status==='processing')h+='<div class="track" style="margin-top:10px"><div class="fill" style="width:50%"></div></div>';
+    if(r.status==='done'){
+      h+='<p style="margin:10px 0 4px">'+(r.pages?(r.ext==='pptx'?r.pages+' slide(s)':r.pages+' page(s)')+' · ':'')+r.words+' words</p>';
+      if(r.low)h+='<p class="note">Little or no readable text was found. The file may be scanned or use embedded fonts. Reading it needs OCR, which is part of the backend.</p>';
+      else{
+        h+=r.headings.length?'<p class="mute" style="margin:6px 0 2px">Modules or units found:</p><ul class="list">'+r.headings.map(function(x){return '<li><span>'+esc(x)+'</span></li>'}).join('')+'</ul>':'<p class="mute" style="margin:6px 0">No module or unit headings found. Use them in SprintMap™ by pasting the text, or add headings first.</p>';
+        h+='<details style="margin-top:8px"><summary>Extracted text</summary><pre class="ext">'+esc(r.text.slice(0,4000))+(r.text.length>4000?'\n…':'')+'</pre></details>';
+      }
+    }
+    if(r.status==='failed')h+='<p class="field-err" style="margin:8px 0 0">'+esc(r.error||'This file could not be read.')+'</p>';
+    h+='<div class="row">'
+      +(r.status==='done'&&!r.low?'<button class="btn sm" type="button" data-act="use" data-id="'+esc(r.id)+'">Use in SprintMap™</button>':'')
+      +(r.status==='failed'?'<button class="btn ghost sm" type="button" data-act="retry" data-id="'+esc(r.id)+'">Retry</button>':'')
+      +'<button class="btn ghost sm" type="button" data-act="delete" data-id="'+esc(r.id)+'">Delete</button></div></div>';
+  });
+  $('v-upload').innerHTML=h;
+}
+$('v-upload').addEventListener('change',function(e){if(e.target.id==='fup'&&e.target.files.length){addFiles(e.target.files);e.target.value=''}});
+$('v-upload').addEventListener('dragover',function(e){var d=e.target.closest&&e.target.closest('#drop');if(d){e.preventDefault();d.classList.add('over')}});
+$('v-upload').addEventListener('dragleave',function(e){var d=e.target.closest&&e.target.closest('#drop');if(d)d.classList.remove('over')});
+$('v-upload').addEventListener('drop',function(e){var d=e.target.closest&&e.target.closest('#drop');if(!d)return;e.preventDefault();d.classList.remove('over');addFiles(e.dataTransfer.files)});
+$('v-upload').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-act]');if(!b)return;
+  var id=b.getAttribute('data-id'),act=b.getAttribute('data-act');
+  var rec=getFiles().filter(function(r){return r.id===id})[0];if(!rec)return;
+  if(act==='retry'){queue=queue.then(function(){return processFile(id)});return}
+  if(act==='use'){
+    if(!put('ss-syllabus-draft',rec.text)){upMsg='Storage is full. Delete a file to free space.';renderUpload();return}
+    location.hash='sprintmap';syncFrameMap();toast('Text sent to SprintMap™. Click Analyze syllabus to continue.');return;
+  }
+  if(act==='delete'){
+    ask('Delete “'+rec.name+'”? Its upload slot will not be returned.',function(){
+      saveFiles(getFiles().filter(function(r){return r.id!==id}));delete FILE_OBJ[id];renderUpload();toast('File deleted.');
+    });
+  }
+});
+
+/* ---------- timed mock tests (questions from SprintMap; results saved separately) ---------- */
+var MX=null,MX_TICK=null;
+function mockCard(){
+  var hh=get('ss-mocks')||[],last=hh[hh.length-1];
+  return '<div class="card sec"><h2>Mock tests</h2><p class="mute">Timed tests built from your saved SprintMap™ questions. Unanswered questions count as wrong.</p>'
+    +(last?'<p>'+hh.length+' test(s) taken. Latest: '+Math.round(last.correct/last.total*100)+'%.</p>':'<p class="mute">No mock tests yet.</p>')
+    +'<div class="row"><a class="btn" href="#mock">Build a mock test</a></div></div>';
+}
+function mockQs(){var m=get('ss-map');return (m&&m.quiz&&m.quiz.qs)||[]}
+function topicName(tid){var x=topicsOf(get('ss-map')).filter(function(x){return x.t.id===tid})[0];return x?x.t.name:'(removed topic)'}
+function fmtClock(ms){var s=Math.max(0,Math.ceil(ms/1000)),m=Math.floor(s/60),r=s%60;return m+':'+(r<10?'0':'')+r}
+function shuffleArr(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),x=a[i];a[i]=a[j];a[j]=x}return a}
+function renderMock(){
+  if(!profile())return;
+  if(MX&&!MX.done)drawRunner();else if(MX&&MX.done)drawResult();else drawSetup();
+}
+function drawSetup(){
+  var qs=mockQs(),m=get('ss-map'),tops={};
+  qs.forEach(function(q){tops[q.tid]=(tops[q.tid]||0)+1});
+  var list=topicsOf(m).filter(function(x){return tops[x.t.id]});
+  var h='<div class="hd"><a class="btn ghost sm" href="#exam">← Exam Sprint</a><h2>Timed mock test</h2></div>'
+    +'<p class="mute">Built from the questions you saved in SprintMap™. Unanswered questions count as wrong. The timer keeps running if you leave this page. Reloading the page ends an attempt, and it is not saved.</p>';
+  if(!qs.length){
+    h+='<div class="card sec"><h3>No questions yet</h3><p class="mute">Add questions in SprintMap™ (Quizzes section), then come back to build a mock test.</p><div class="row"><a class="btn" href="#sprintmap">Open SprintMap™</a></div></div>';
+    $('v-mock').innerHTML=h;return;
+  }
+  h+='<div class="card sec"><label for="mx-topics">Topics</label><select id="mx-topics"><option value="all">All topics (mixed)</option>'
+    +list.map(function(x){return '<option value="'+esc(x.t.id)+'">'+esc(x.t.name)+' ('+tops[x.t.id]+')</option>'}).join('')+'</select>'
+    +'<div class="grid2" style="margin-top:4px"><div><label for="mx-n">Number of questions (up to '+qs.length+')</label><input id="mx-n" type="number" min="1" max="'+qs.length+'" value="'+Math.min(10,qs.length)+'"></div>'
+    +'<div><label for="mx-t">Time limit (minutes)</label><input id="mx-t" type="number" min="1" max="240" value="'+Math.max(5,Math.min(60,Math.round(Math.min(10,qs.length)*1.5)))+'"></div></div>'
+    +'<p id="mx-err" class="field-err hide" role="alert"></p><div class="row"><button class="btn" id="mx-start" type="button">Start mock test</button></div></div>';
+  var hist=get('ss-mocks')||[];
+  if(hist.length)h+='<div class="card sec"><h2>Previous mock tests</h2><ul class="list">'+hist.slice(-8).reverse().map(function(x){return '<li><span>'+esc(x.d)+' · '+x.total+' questions</span><span>'+x.correct+' / '+x.total+' ('+Math.round(x.correct/x.total*100)+'%)</span></li>'}).join('')+'</ul></div>';
+  $('v-mock').innerHTML=h;
+}
+function startMock(){
+  var qs=mockQs(),sel=$('mx-topics').value,n=parseInt($('mx-n').value,10),mins=parseInt($('mx-t').value,10),err=$('mx-err');
+  var pool=qs.filter(function(q){return sel==='all'||q.tid===sel});
+  var msg='';
+  if(!(n>=1))msg='Enter a number of questions of at least 1.';
+  else if(n>pool.length)msg='Only '+pool.length+' question(s) are saved for this choice.';
+  else if(!(mins>=1&&mins<=240))msg='Enter a time limit between 1 and 240 minutes.';
+  if(msg){err.textContent=msg;err.classList.remove('hide');return}
+  var now=Date.now();
+  MX={qs:shuffleArr(pool).slice(0,n),ans:[],i:0,startedAt:now,endAt:now+mins*60000,done:false};
+  MX.qs.forEach(function(){MX.ans.push(null)});
+  startTick();renderMock();
+}
+function drawRunner(){
+  var q=MX.qs[MX.i],answered=MX.ans.filter(function(a){return a!==null}).length;
+  var h='<div class="hd" style="justify-content:space-between"><b>Question '+(MX.i+1)+' of '+MX.qs.length+'</b><span class="badge" id="mx-time">'+fmtClock(MX.endAt-Date.now())+' left</span></div>'
+    +'<div class="track" style="margin:8px 0 12px"><div class="fill" style="width:'+Math.round(answered/MX.qs.length*100)+'%"></div></div>'
+    +'<p class="mute" style="margin:0">'+esc(topicName(q.tid))+'</p><h2 style="margin-top:6px">'+esc(q.q)+'</h2>'
+    +q.opts.map(function(o,i){var sel=MX.ans[MX.i]===i;return '<button type="button" class="opt'+(sel?' sel':'')+'" data-mo="'+i+'" aria-pressed="'+sel+'">'+'ABCD'[i]+') '+esc(o)+'</button>'}).join('')
+    +'<div class="row" style="justify-content:space-between"><button class="btn ghost" type="button" id="mx-prev"'+(MX.i===0?' disabled':'')+'>Previous</button>'
+    +(MX.i<MX.qs.length-1?'<button class="btn" type="button" id="mx-next">Next</button>':'')+'</div>'
+    +'<div class="row">'+MX.qs.map(function(_,i){return '<button type="button" class="btn ghost sm" data-mj="'+i+'" aria-label="Question '+(i+1)+(MX.ans[i]===null?', not answered':', answered')+'" style="min-width:44px;'+(i===MX.i?'border-color:var(--accent2);':'')+(MX.ans[i]===null?'':'background:var(--tint);')+'">'+(i+1)+'</button>'}).join('')+'</div>'
+    +'<div class="row"><button class="btn" type="button" id="mx-submit">Submit test</button><span class="mute">'+(MX.qs.length-answered)+' unanswered</span></div>';
+  $('v-mock').innerHTML='<div class="card">'+h+'</div>';
+}
+function startTick(){
+  clearInterval(MX_TICK);
+  MX_TICK=setInterval(function(){
+    if(!MX||MX.done){clearInterval(MX_TICK);return}
+    if(Date.now()>=MX.endAt){finishMock(true);return}
+    var t=$('mx-time');if(t)t.textContent=fmtClock(MX.endAt-Date.now())+' left';
+  },1000);
+}
+function finishMock(timedOut){
+  if(!MX||MX.done)return;
+  clearInterval(MX_TICK);
+  var correct=0,unanswered=0,per={};
+  MX.qs.forEach(function(q,i){var p=per[q.tid]=per[q.tid]||[0,0];p[1]++;var a=MX.ans[i];if(a===null)unanswered++;else if(a===q.ans){correct++;p[0]++}});
+  var secs=Math.round((Math.min(Date.now(),MX.endAt)-MX.startedAt)/1000);
+  MX.done=true;MX.res={correct:correct,unanswered:unanswered,total:MX.qs.length,per:per,secs:secs,timedOut:!!timedOut};
+  var hist=get('ss-mocks')||[];
+  hist.push({d:today(),total:MX.qs.length,correct:correct,unanswered:unanswered,secs:secs,per:per});
+  put('ss-mocks',hist);
+  if(!$('v-mock').hidden)renderMock();
+}
+function drawResult(){
+  var r=MX.res,pc=Math.round(r.correct/r.total*100);
+  var weak=Object.keys(r.per).map(function(k){var p=r.per[k];return{tid:k,pct:Math.round(p[0]/p[1]*100),c:p[0],n:p[1]}}).sort(function(a,b){return a.pct-b.pct});
+  var h='<div class="hd"><a class="btn ghost sm" href="#exam">← Exam Sprint</a><h2>Mock test result</h2></div>'
+    +(r.timedOut?'<p class="note">Time ran out, so the test was submitted automatically.</p>':'')
+    +'<div class="stats sec"><div class="card stat"><b>'+r.correct+' / '+r.total+'</b><span>Score</span></div><div class="card stat"><b>'+pc+'%</b><span>Percentage</span></div><div class="card stat"><b>'+r.unanswered+'</b><span>Unanswered (counted as wrong)</span></div><div class="card stat"><b>'+fmtClock(r.secs*1000)+'</b><span>Time used</span></div></div>';
+  h+='<div class="split sec"><div class="card"><h2>Topic-wise result</h2><ul class="list">'+weak.map(function(w){return '<li><span>'+esc(topicName(w.tid))+'</span><span class="badge">'+w.c+' / '+w.n+' ('+w.pct+'%)</span></li>'}).join('')+'</ul>'
+    +'<h3 class="sec" style="font-size:1rem">Recommendation</h3>'+(weak.length&&weak[0].pct<60?'<p>Revise “'+esc(topicName(weak[0].tid))+'” first. Recover it in SprintMap™, then take another mock test.</p>':'<p class="mute">No topic fell below 60% in this test.</p>')+'</div>'
+    +'<div class="card"><h2>Next</h2><div class="row"><button class="btn" id="mx-again" type="button">Take another mock test</button><a class="btn ghost" href="#sprintmap">Recover in SprintMap™</a></div><p class="note">This result is saved here. It does not change topic statuses in SprintMap™.</p></div></div>';
+  h+='<div class="card sec"><h2>Review answers</h2>'+MX.qs.map(function(q,i){var a=MX.ans[i],ok=a===q.ans;return '<div style="padding:10px 0;border-bottom:1px solid var(--line)"><p style="margin:0"><b>'+(i+1)+'. '+esc(q.q)+'</b></p><p style="margin:4px 0;'+(ok?'':'color:var(--weak)')+'">Your answer: '+(a===null?'Unanswered':esc(q.opts[a]))+(ok?' ✓':'')+'</p><p style="margin:0">Correct: '+esc(q.opts[q.ans])+'</p>'+(q.exp?'<p class="mute" style="margin:4px 0 0">'+esc(q.exp)+'</p>':'')+'</div>'}).join('')+'</div>';
+  $('v-mock').innerHTML=h;
+}
+$('v-mock').addEventListener('click',function(e){
+  var b=e.target.closest('button');if(!b||b.disabled)return;
+  if(b.id==='mx-start'){startMock();return}
+  if(b.id==='mx-again'){MX=null;renderMock();return}
+  if(!MX||MX.done)return;
+  if(b.hasAttribute('data-mo')){MX.ans[MX.i]=parseInt(b.getAttribute('data-mo'),10);drawRunner();return}
+  if(b.hasAttribute('data-mj')){MX.i=parseInt(b.getAttribute('data-mj'),10);drawRunner();return}
+  if(b.id==='mx-prev'){MX.i--;drawRunner();return}
+  if(b.id==='mx-next'){MX.i++;drawRunner();return}
+  if(b.id==='mx-submit'){
+    var un=MX.ans.filter(function(a){return a===null}).length;
+    ask('Submit the test? '+un+' unanswered question(s) count as wrong.',function(){finishMock(false)});
+  }
+});
+
+/* ---------- legal and contact (drafts; placeholders must be completed by the business) ---------- */
+function draftBanner(){return '<div class="draft" role="note"><b>Draft for review.</b> This text is not final and is not legal advice. Counsel must review it before publication. Items in <span class="ph">[brackets]</span> must be completed by the business.</div>'}
+function renderLegal(){
+  $('v-contact').innerHTML='<div class="doc"><h2>Contact</h2>'+draftBanner()
+    +'<p>For questions about your account, your data, or this prototype, contact us at <span class="ph">[SUPPORT EMAIL]</span>.</p>'
+    +'<p>Postal address: <span class="ph">[REGISTERED POSTAL ADDRESS]</span></p>'
+    +'<p>Grievance officer for data protection: <span class="ph">[GRIEVANCE OFFICER NAME AND CONTACT]</span></p>'
+    +'<p class="mute">Phone and email sign-in, and in-app support requests, need the backend. Until it is live, contact details are shown only here.</p></div>';
+  $('v-terms').innerHTML='<div class="doc"><h2>Terms of use</h2>'+draftBanner()
+    +'<p>Last updated: <span class="ph">[DATE]</span></p>'
+    +'<h3>1. About this service</h3><p>SkillSprinta LearnTech helps students plan study from their syllabus, track understanding, practise with quizzes, and review progress. The features described as "prototype" may change, be limited, or be unavailable.</p>'
+    +'<h3>2. Accounts and demo mode</h3><ul><li>Signing in is optional. Without it, data stays in the browser you use. Signing in on the prototype server creates a demo account, and no real text messages are sent.</li><li>When accounts are available, you must give accurate information and keep your sign-in details private.</li></ul>'
+    +'<h3>3. Your study material</h3><ul><li>You keep ownership of the files and text you upload.</li><li>You confirm you have the right to upload them and that they do not break copyright or confidentiality obligations.</li><li>We use them only to provide the features you ask for.</li></ul>'
+    +'<h3>4. AI-generated content</h3><p>Explanations, quiz questions and summaries may be generated automatically. They can be wrong or incomplete. Check important material against your course text and your teachers. Nothing here guarantees exam results.</p>'
+    +'<h3>5. Plans and payments</h3><p>The free plan includes up to 5 PDF or PPT study files for AI analysis. Subscription prices and features are <span class="ph">[TO BE SET AT LAUNCH]</span>. No payment is taken in this prototype.</p>'
+    +'<h3>6. Acceptable use</h3><ul><li>Do not share exam papers or answer keys in ways that breach your institution\'s rules.</li><li>Do not attempt to access other people\'s data, disrupt the service, or bypass usage limits.</li></ul>'
+    +'<h3>7. Limitation of liability</h3><p>To the extent permitted by law, the service is provided "as is". We are not liable for indirect losses, including exam results, arising from use of the service. <span class="ph">[LIABILITY CAP AND EXCLUSIONS: COUNSEL TO CONFIRM]</span></p>'
+    +'<h3>8. Ending use</h3><p>You can stop using the service at any time and delete your data from Profile. We may suspend accounts that breach these terms.</p>'
+    +'<h3>9. Governing law</h3><p>These terms are governed by the laws of <span class="ph">[JURISDICTION]</span>. Courts at <span class="ph">[VENUE]</span> have jurisdiction.</p>'
+    +'<h3>10. Changes and contact</h3><p>We may update these terms and will show the new date above. Questions: <span class="ph">[SUPPORT EMAIL]</span>.</p></div>';
+  $('v-privacy').innerHTML='<div class="doc"><h2>Privacy policy</h2>'+draftBanner()
+    +'<p>Last updated: <span class="ph">[DATE]</span></p>'
+    +'<h3>1. What we collect</h3><ul><li><b>Profile:</b> name, avatar, college, degree, branch, year, semester, subjects, exam date, daily study time, understanding level, language, learning preferences, goals.</li><li><b>Study data:</b> syllabus text and topics, topic statuses and self-ratings, study plans, quiz questions and results, mock test results, notification read state.</li><li><b>Uploads:</b> files you upload and the text extracted from them.</li><li><b>Contact details</b> (mobile number, email) once sign-in is available.</li></ul>'
+    +'<h3>2. How the prototype stores data</h3><p>In this prototype, your data is stored in your browser. If you sign in to sync, your profile, progress and uploaded file text are also stored on the prototype server, and your mobile number is used to sign you in. Clearing browser data removes the local copy. Use Profile, then Delete all my data, to remove it from this browser. Removing the server copy is not available in this prototype yet.</p>'
+    +'<h3>3. How we use data</h3><ul><li>To provide study planning, quizzes, analytics, notifications and your Skill Passport.</li><li>To show your own progress. We do not sell personal data.</li></ul>'
+    +'<h3>4. Service providers</h3><p>When the backend is live, we may share limited data with providers for SMS or OTP, email, AI analysis, payments and hosting. Each provider processes data only for us, under contract. <span class="ph">[LIST OF PROVIDERS AND DATA LOCATION]</span></p>'
+    +'<h3>5. Students under 18</h3><p>Many students may be under 18. <span class="ph">[COUNSEL TO SET THE CONSENT AND PARENTAL-CONTROL APPROACH REQUIRED FOR MINORS]</span></p>'
+    +'<h3>6. Retention</h3><p>We keep data while your account is active. When you delete your account or data, we remove it, except where the law requires us to keep it. <span class="ph">[RETENTION PERIODS]</span></p>'
+    +'<h3>7. Your rights</h3><p>You can access, correct and delete your data, and withdraw consent where we rely on it. Requests go to <span class="ph">[SUPPORT EMAIL]</span>. <span class="ph">[CONFIRM RIGHTS AND PROCEDURE UNDER APPLICABLE INDIAN LAW, INCLUDING THE DIGITAL PERSONAL DATA PROTECTION ACT, 2023]</span></p>'
+    +'<h3>8. Security</h3><p>Browser storage is not a secure vault. When accounts are live, data will be encrypted in transit and access-controlled on the server, and API keys and secrets will stay on the server only.</p>'
+    +'<h3>9. Changes and contact</h3><p>We will show the updated date above when this policy changes. Questions: <span class="ph">[SUPPORT EMAIL]</span>.</p></div>';
+}
+renderLegal();
+
+/* ---------- formulas and definitions from uploaded text (rule-based, not AI) ---------- */
+function formulaList(){
+  var ok=getFiles().filter(function(r){return r.status==='done'&&!r.low&&r.text});
+  if(!ok.length)return '<p class="mute">Upload notes or slides in Upload. This list then fills with formulas and definitions found by rules in your text.</p>';
+  var defs=[],forms=[],seen={};
+  ok.forEach(function(r){
+    r.text.split('\n').forEach(function(line){
+      var l=line.trim();if(!l||l.length>200)return;
+      var key=l.toLowerCase();if(seen[key])return;
+      if(/\b(is defined as|are defined as|is called|is known as|refers to|is the set of|is the number of)\b|^definition\s*[:\-]/i.test(l)){
+        if(defs.length<15){seen[key]=1;defs.push({t:l,f:r.name})}
+      }else if(/=/.test(l)&&!/==/.test(l)&&/[A-Za-z]/.test(l)&&/[0-9+\-*\/^()]/.test(l)&&l.split(/\s+/).length<=14){
+        if(forms.length<15){seen[key]=1;forms.push({t:l,f:r.name})}
+      }
+    });
+  });
+  var li=function(x){return '<li><span style="overflow-wrap:anywhere">'+esc(x.t)+'</span><span class="mute" style="font-size:.85rem">'+esc(x.f)+'</span></li>'};
+  return '<p class="note">Found by rules in your uploaded text, not by AI. Check every item against your source before you rely on it.</p>'
+    +'<h3 class="sec" style="font-size:1rem">Formulas</h3>'+(forms.length?'<ul class="list">'+forms.map(li).join('')+'</ul>':'<p class="mute">No formulas found.</p>')
+    +'<h3 class="sec" style="font-size:1rem">Definitions</h3>'+(defs.length?'<ul class="list">'+defs.map(li).join('')+'</ul>':'<p class="mute">No definitions found.</p>');
+}
+
+/* ---------- onboarding tour ---------- */
+var STEPS=[
+ ['Welcome to SkillSprinta LearnTech','Learn Smarter. Sprint Faster. Achieve More. This short tour shows the main steps.'],
+ ['Uploading syllabi and study materials','In this prototype, paste your syllabus text into SprintMap™. File upload (PDF, PPT, DOC) needs the backend.'],
+ ['Selecting subjects and examination dates','Add your subjects and exam date in Profile. The dashboard counts down to your exam.'],
+ ['Choosing available daily study time','Set how many hours you can study each day. The planner uses this to schedule your topics.'],
+ ['Selecting a preferred language','Your language is saved for later use. Translated explanations need the AI tutor, which is not connected yet.'],
+ ['Generating a personalized study plan','In SprintMap™, enter your exam date and daily hours, then generate the plan.'],
+ ['Learning and practicing','Mark topics as you study, rate your understanding, and take quizzes from your own questions.'],
+ ['Using SprintMap™ to find weak topics','Weak topics are flagged on the map and recommended first, with their prerequisites.'],
+ ['Understanding the dashboard and progress','Your dashboard shows completed and pending topics, quiz averages and plan progress, all from your saved data.']
+];
+var ti=0;
+function startTour(){ti=0;drawTour();$('tour').hidden=false;$('t-next').focus()}
+function drawTour(){
+  var s=STEPS[ti];$('t-count').textContent='Step '+(ti+1)+' of '+STEPS.length;$('t-title').textContent=s[0];$('t-body').textContent=s[1];
+  $('t-back').disabled=ti===0;$('t-next').textContent=ti===STEPS.length-1?'Finish':'Next';
+  $('t-dots').innerHTML=STEPS.map(function(_,i){return '<i class="'+(i===ti?'on':'')+'"></i>'}).join('');
+}
+function endTour(){$('tour').hidden=true;put('ss-onboarded',true)}
+$('t-next').onclick=function(){if(ti===STEPS.length-1)endTour();else{ti++;drawTour()}};
+$('t-back').onclick=function(){if(ti>0){ti--;drawTour()}};
+$('t-skip').onclick=endTour;
+
+/* ---------- router ---------- */
+var VIEWS=['welcome','upload','home','sprintmap','exam','tutor','mock','analytics','passport','notifications','plans','profile','sync','terms','privacy','contact'];
+var PUBLIC_VIEWS=['plans','sync','terms','privacy','contact'];
+function route(){
+  var p=profile(),h=(location.hash||'').replace('#','');var v;
+  if(!p){v=PUBLIC_VIEWS.indexOf(h)>-1?h:'welcome'}
+  else{v=VIEWS.indexOf(h)>-1&&h!=='welcome'?h:'home'}
+  VIEWS.forEach(function(x){$('v-'+x).hidden=x!==v});
+  document.querySelectorAll('[data-nav]').forEach(function(a){if(a.getAttribute('data-nav')===v)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+  if(v==='home'){renderHome();if(!get('ss-onboarded')&&$('tour').hidden)startTour()}
+  if(v==='profile'&&p)fillForm(p);
+  if(v==='exam')renderExam();
+  if(v==='tutor')renderTutor();
+  if(v==='analytics')renderAnalytics();
+  if(v==='passport')renderPassport();
+  if(v==='notifications')renderNotifications();
+  if(v==='upload')renderUpload();
+  if(v==='mock')renderMock();
+  if(v==='contact'||v==='terms'||v==='privacy')window.scrollTo(0,0);
+  if(v==='plans'){$('plan-current').textContent=p?'Current plan (Free)':'Free plan'}
+  updateBadge();
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);
+window.addEventListener('storage',function(e){
+  if(e.key==='ss-theme'&&(e.newValue==='light'||e.newValue==='dark'))root.setAttribute('data-theme',e.newValue);
+  if(e.key==='ss-map'||e.key==='ss-profile'){if(!$('v-home').hidden)renderHome();if(!$('v-exam').hidden)renderExam();if(!$('v-analytics').hidden)renderAnalytics();if(!$('v-passport').hidden)renderPassport();if(!$('v-notifications').hidden)renderNotifications();updateBadge()}
+});
+$('subscribe').onclick=function(){var m3=$('subscribe-msg');m3.textContent='Payments are not connected in this prototype. Nothing was charged.';m3.classList.remove('hide')};
+
+/* ---------- account sync (active only when this page is served by the API) ---------- */
+var SYNC_DEVICE_KEYS=['ss-theme','ss-splashed','ss-onboarded']; // device settings: not synced
+var syncUser=null,syncAvailable=false,syncReady=false,syncTimer=null,syncBusy=false,syncAgain=false,syncPhone='';
+function apiCall(method,path,body){
+  var o={method:method,credentials:'same-origin',headers:{}};
+  if(body!==undefined){o.headers['Content-Type']='application/json';o.body=JSON.stringify(body)}
+  return fetch(path,o).then(function(r){
+    return r.text().then(function(t){var d=null;try{d=JSON.parse(t)}catch(e){}return d===null?null:{status:r.status,data:d}});
+  },function(){return null});
+}
+function syncMsg(t){var el=$('sync-status');if(el)el.textContent=t}
+function nowText(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+function maskPhone(p){return p.slice(0,3)+' ••••• '+p.slice(-4)}
+function localSnapshot(){
+  var out={};
+  try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.indexOf('ss-')===0&&SYNC_DEVICE_KEYS.indexOf(k)<0){var v=localStorage.getItem(k);if(v!==null)out[k]=v}}}catch(e){}
+  return out;
+}
+function sameSnapshot(a,b){var ka=Object.keys(a),kb=Object.keys(b);if(ka.length!==kb.length)return false;return ka.every(function(k){return a[k]===b[k]})}
+function applyRemote(state){
+  try{
+    Object.keys(localSnapshot()).forEach(function(k){localStorage.removeItem(k)});
+    Object.keys(state).forEach(function(k){if(k.indexOf('ss-')===0&&SYNC_DEVICE_KEYS.indexOf(k)<0&&typeof state[k]==='string')localStorage.setItem(k,state[k])});
+    return true;
+  }catch(e){return false}
+}
+function renderSync(){
+  var card=$('sync-card');
+  if(!card)return;
+  card.hidden=!syncAvailable;
+  $('w-sync').hidden=!syncAvailable;
+  $('p-sync').hidden=!syncAvailable;
+  $('contact-form').hidden=!syncAvailable;
+  $('sync-in').hidden=!!syncUser;
+  $('sync-out').hidden=!syncUser;
+}
+function pushState(){
+  return apiCall('PUT','/api/state',localSnapshot()).then(function(r){
+    if(!r)return syncMsg('Could not reach the server. Changes are kept in this browser and will sync later.');
+    if(r.status===200)return syncMsg('Saved to your account at '+nowText()+'.');
+    syncMsg(r.data&&r.data.error?r.data.error:'Could not save to your account.');
+  });
+}
+function touchSync(){
+  if(!syncUser||!syncReady)return;
+  clearTimeout(syncTimer);
+  syncTimer=setTimeout(function(){
+    if(syncBusy){syncAgain=true;return}
+    syncBusy=true;
+    pushState().then(function(){syncBusy=false;if(syncAgain){syncAgain=false;touchSync()}});
+  },1000);
+}
+function syncUploadsFromServer(){
+  return apiCall('GET','/api/uploads').then(function(r){
+    if(!r||r.status!==200)return false;
+    var local=get('ss-upload-used')||0,server=r.data.uploadUsed||0;
+    if(local>server){
+      // Uploads made on this browser before signing in are counted on the account too.
+      var chain=Promise.resolve();
+      for(var n=server;n<local;n++)chain=chain.then(function(){return apiCall('POST','/api/uploads',{name:'Upload from before sign-in',ext:'pdf',size:1,text:''})});
+      return chain.then(function(){return true});
+    }
+    if(server>local)put('ss-upload-used',server);
+    return true;
+  });
+}
+function reconcile(){
+  syncMsg('Checking your saved progress…');
+  return apiCall('GET','/api/state').then(function(r){
+    if(!r||r.status!==200){syncMsg('Could not reach the server. Your progress is saved in this browser.');return}
+    var remote=r.data.state||{},local=localSnapshot();
+    var remoteHas=Object.keys(remote).length>0,localHas=Object.keys(local).length>0;
+    var finish=function(applied){
+      return syncUploadsFromServer().then(function(){
+        syncReady=true;
+        if(applied){location.reload();return}
+        if(localHas)return pushState();
+        syncMsg('Signed in. Your saved progress is shown on this device.');
+      });
+    };
+    if(remoteHas&&!localHas)return finish(applyRemote(remote));
+    if(!remoteHas||sameSnapshot(remote,local))return finish(false);
+    return new Promise(function(resolve){
+      ask('Your account has saved progress, and this browser has different progress. Use the account copy on this browser? Cancel keeps this browser\'s copy and replaces the account copy.',
+        function(){finish(applyRemote(remote)).then(resolve)},
+        function(){finish(false).then(resolve)});
+    });
+  });
+}
+function bootSync(){
+  apiCall('GET','/api/me').then(function(r){
+    if(!r){syncAvailable=false;renderSync();return}
+    syncAvailable=true;
+    if(r.status===200&&r.data.user){syncUser=r.data.user;renderSync();return reconcile()}
+    renderSync();
+    syncMsg('Not signed in. Your progress is saved in this browser only.');
+    syncReady=true;
+  });
+}
+$('sy-send').onclick=function(){
+  var digits=$('sy-phone').value.replace(/\D/g,'');
+  var ok=/^[6-9]\d{9}$/.test(digits);
+  setErr('sy-phone-err',ok?'':'Enter a valid 10-digit mobile number.');
+  if(!ok)return;
+  $('sy-send').disabled=true;
+  apiCall('POST','/api/auth/otp/request',{country:'+91',phone:digits}).then(function(r){
+    $('sy-send').disabled=false;
+    if(!r)return setErr('sy-phone-err','Sign-in is not available right now.');
+    if(r.status!==200)return setErr('sy-phone-err',r.data&&r.data.error?r.data.error:'Could not send a code.');
+    syncPhone=digits;
+    $('sy-codebox').hidden=false;
+    $('sy-code').focus();
+    syncMsg(r.data.demo?'Demo SMS: your code is '+r.data.code+'. This prototype does not send real text messages.':'We sent a 6-digit code to your phone.');
+  });
+};
+$('sy-verify').onclick=function(){
+  var code=$('sy-code').value.trim();
+  if(!/^\d{6}$/.test(code))return setErr('sy-code-err','Enter the 6-digit code.');
+  setErr('sy-code-err','');
+  apiCall('POST','/api/auth/otp/verify',{country:'+91',phone:syncPhone,code:code}).then(function(r){
+    if(!r)return setErr('sy-code-err','Sign-in is not available right now.');
+    if(r.status!==200)return setErr('sy-code-err',r.data&&r.data.error?r.data.error:'Could not sign in.');
+    syncUser=r.data.user;
+    $('sy-codebox').hidden=true;$('sy-code').value='';$('sy-phone').value='';
+    renderSync();
+    return reconcile();
+  });
+};
+$('sy-signout').onclick=function(){
+  syncReady=false;clearTimeout(syncTimer);syncUser=null;
+  apiCall('POST','/api/auth/logout',{});
+  renderSync();syncMsg('Signed out of sync. Your progress stays in this browser.');
+};
+window.addEventListener('storage',function(e){if(e.key&&e.key.indexOf('ss-')===0&&SYNC_DEVICE_KEYS.indexOf(e.key)<0)touchSync()});
+
+/* ---------- OCR for scanned PDFs (signed-in users, via the prototype server) ---------- */
+function ocrPdf(f){
+  return new Promise(function(resolve){
+    var fr=new FileReader();
+    fr.onload=function(){
+      var data=String(fr.result).split(',')[1]||'';
+      apiCall('POST','/api/ocr',{name:f.name,ext:'pdf',data:data}).then(function(r){
+        if(!r||r.status!==200){upMsg=f.name+': OCR could not read this file'+(r&&r.data&&r.data.error?' ('+r.data.error+')':'.');renderUpload();resolve(null);return}
+        resolve(r.data);
+      });
+    };
+    fr.onerror=function(){resolve(null)};
+    fr.readAsDataURL(f);
+  });
+}
+
+/* ---------- AI tutor (answers only from one uploaded file) ---------- */
+function renderTutor(){
+  var recs=getFiles().filter(function(r){return r.status==='done'&&r.words>=8});
+  var h='<div class="doc"><h2>AI tutor</h2><p class="note">The tutor answers only from one of your uploaded files. It needs the prototype server with an AI key set up on it.</p>';
+  if(!syncUser){
+    h+='<p>Sign in on the Sync page to use the tutor.</p>';
+  }else if(!recs.length){
+    h+='<p>Upload a file with readable text first.</p>';
+  }else{
+    h+='<label for="tu-file">File</label><select id="tu-file">'+recs.map(function(r){return '<option value="'+esc(r.id)+'">'+esc(r.name)+'</option>'}).join('')+'</select>'
+      +'<label for="tu-q">Your question</label><textarea id="tu-q" maxlength="1000" rows="3" placeholder="e.g. Explain the difference between BFS and DFS"></textarea>'
+      +'<div class="row"><button class="btn" id="tu-ask" type="button">Ask the tutor</button></div>'
+      +'<p id="tu-msg" class="note hide" role="status"></p><div id="tu-answer"></div>';
+  }
+  $('v-tutor').innerHTML=h+'</div>';
+  if($('tu-ask'))$('tu-ask').onclick=askTutor;
+}
+function askTutor(){
+  var msg=$('tu-msg');
+  function say(t){msg.textContent=t;msg.classList.remove('hide')}
+  var q=$('tu-q').value.trim();
+  var rec=getFiles().filter(function(r){return r.id===$('tu-file').value})[0];
+  if(!q)return say('Type a question first.');
+  if(!rec)return say('Choose a file.');
+  $('tu-ask').disabled=true;say('Thinking…');$('tu-answer').textContent='';
+  apiCall('POST','/api/tutor/ask',{question:q,context:rec.text||'',fileName:rec.name}).then(function(r){
+    $('tu-ask').disabled=false;
+    if(!r)return say('Could not reach the server.');
+    if(r.status!==200)return say(r.data&&r.data.error?r.data.error:'The tutor could not answer.');
+    msg.classList.add('hide');
+    $('tu-answer').innerHTML='<div class="card sec"><p style="white-space:pre-wrap">'+esc(r.data.answer)+'</p><p class="mute">Based only on '+esc(rec.name)+'.</p></div>';
+  });
+}
+
+/* ---------- contact form (email through the prototype server) ---------- */
+$('v-contact').insertAdjacentHTML('beforeend','<div class="doc" id="contact-form" hidden><h3>Send us a message</h3><form id="cform" novalidate>'
+  +'<label for="cf-name">Name</label><input id="cf-name" maxlength="80" autocomplete="name">'
+  +'<label for="cf-email">Email</label><input id="cf-email" type="email" maxlength="120" autocomplete="email">'
+  +'<label for="cf-msg">Message</label><textarea id="cf-msg" maxlength="2000" rows="4"></textarea>'
+  +'<div class="row"><button class="btn" type="submit">Send message</button></div>'
+  +'<p id="cf-out" class="note hide" role="status"></p></form></div>');
+$('cform').addEventListener('submit',function(e){
+  e.preventDefault();
+  var out=$('cf-out');function say(t){out.textContent=t;out.classList.remove('hide')}
+  apiCall('POST','/api/contact',{name:$('cf-name').value,email:$('cf-email').value,message:$('cf-msg').value}).then(function(r){
+    if(!r)return say('Could not reach the server.');
+    if(r.status===200){$('cform').reset();return say('Thanks. Your message was sent.')}
+    say(r.data&&r.data.error?r.data.error:'Could not send the message.');
+  });
+});
+
+/* ---------- splash (first visit only) ---------- */
+(function(){
+  var sp=$('splash');
+  var seen=get('ss-splashed');
+  if(seen){sp.classList.add('gone');return}
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hide=function(){sp.classList.add('gone');put('ss-splashed',true)};
+  setTimeout(hide,reduce?600:1800);
+  sp.addEventListener('click',hide);
+})();
+
+route();
+bootSync();
+})();
+</script>
+</body>
+</html>

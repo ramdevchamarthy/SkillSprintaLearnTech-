@@ -1,0 +1,5 @@
+# Replace app.example.org with your domain. Point its DNS A/AAAA record at this server first.
+app.example.org {
+  encode gzip
+  reverse_proxy app:8787
+}

@@ -1,0 +1,6 @@
+Chapter 5 Graphs
+Definition: A graph is a set of vertices and edges.
+A tree is defined as a connected acyclic graph.
+T(n) = 2T(n/2) + n
+E = mc^2
+This paragraph explains why sorting matters in many applications and is not a formula at all here.
